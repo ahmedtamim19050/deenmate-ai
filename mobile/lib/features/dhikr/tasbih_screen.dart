@@ -176,7 +176,7 @@ class _TasbihScreenState extends ConsumerState<TasbihScreen> {
           const SizedBox(height: 14),
           Directionality(
             textDirection: TextDirection.rtl,
-            child: Text(_preset.arabic, textAlign: TextAlign.center, style: const TextStyle(fontFamily: 'NotoNaskhArabic', fontSize: 30, height: 1.6)),
+            child: Text(_preset.arabic, textAlign: TextAlign.center, style: const TextStyle(fontFamily: 'ScheherazadeNew', fontSize: 34, height: 1.6)),
           ),
           const SizedBox(height: 16),
           Center(

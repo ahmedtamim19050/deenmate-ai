@@ -41,7 +41,14 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
         value: ref.watch(surahListProvider),
         onRetry: () => ref.invalidate(surahListProvider),
         builder: (surahs) {
-          if (surahs.isEmpty) return StateMessage(icon: Icons.menu_book_outlined, title: l.quranUnavailableTitle, body: l.quranUnavailableBody);
+          if (surahs.isEmpty) {
+            return StateMessage(
+              icon: Icons.menu_book_outlined,
+              title: l.quranUnavailableTitle,
+              body: l.quranUnavailableBody,
+              action: FilledButton.tonal(onPressed: () => ref.invalidate(surahListProvider), child: Text(l.retry)),
+            );
+          }
           final q = _query.toLowerCase();
           final filtered = surahs.where((s) => q.isEmpty || s.name.toLowerCase().contains(q) || s.english.toLowerCase().contains(q) || '${s.id}' == q).toList();
           return ListView.builder(
@@ -80,7 +87,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                   leading: CircleAvatar(backgroundColor: context.colors.primaryContainer, foregroundColor: context.colors.onPrimaryContainer, child: Text('${s.id}', style: context.text.labelMedium)),
                   title: Text(s.name, style: context.text.titleSmall),
                   subtitle: Text('${s.english} · ${l.verseCount(s.verses)}'),
-                  trailing: Text(s.arabic, textDirection: TextDirection.rtl, style: const TextStyle(fontFamily: 'NotoNaskhArabic', fontSize: 18)),
+                  trailing: Text(s.arabic, textDirection: TextDirection.rtl, style: const TextStyle(fontFamily: 'ScheherazadeNew', fontSize: 22)),
                   onTap: () => context.push('/quran/${s.id}'),
                 ),
               );
@@ -107,7 +114,7 @@ class SurahReaderScreen extends ConsumerStatefulWidget {
 class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
   static const _minSecondsPerPage = 20;
 
-  String? _edition;
+  String? _edition = defaultTranslationEdition;
   late int _startVerse = widget.scrollToVerse ?? 1;
   bool _showTransliteration = false;
   bool _showTranslation = true;
@@ -134,18 +141,6 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
     _audioTick = Timer.periodic(const Duration(seconds: 1), (_) {
       if (_player.playing) _audioSeconds++;
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_edition != null) return;
-    final locale = Localizations.localeOf(context).languageCode;
-    final editions = ref.read(editionsProvider).value;
-    if (editions != null) {
-      final match = editions.where((e) => e.language == locale).firstOrNull;
-      _edition = match?.identifier;
-    }
   }
 
   @override
@@ -274,6 +269,8 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    // Loaded here so the translation picker has its list the first time it opens.
+    ref.watch(editionsProvider);
     final detail = ref.watch(surahDetailProvider((id: widget.surahId, edition: _edition)));
     final bookmarks = ref.watch(verseBookmarksProvider).value ?? const {};
     return Scaffold(
@@ -372,7 +369,7 @@ class _VerseCard extends StatelessWidget {
             ],
             if (showTranslation) ...[
               const SizedBox(height: 8),
-              Text(verse.translation ?? l.translationUnavailable, style: context.text.bodyMedium),
+              Text(verse.translation ?? l.translationUnavailable, style: context.text.bodyLarge?.copyWith(fontFamily: 'HindSiliguri', height: 1.7)),
             ],
           ],
         ),
@@ -393,11 +390,8 @@ class _QuranSearchScreenState extends ConsumerState<QuranSearchScreen> {
 
   void _search(String q) {
     if (q.trim().length < 2) return;
-    final editions = ref.read(editionsProvider).value;
-    final locale = ref.read(localeProvider).languageCode;
-    final edition = editions?.where((e) => e.language == locale).firstOrNull?.identifier;
     setState(() {
-      _results = ref.read(apiClientProvider).get('/quran/search', query: {'q': q.trim(), 'edition': ?edition}).then((d) => (d['data'] as List).cast<Map<String, dynamic>>());
+      _results = ref.read(apiClientProvider).get('/quran/search', query: {'q': q.trim(), 'edition': defaultTranslationEdition}).then((d) => (d['data'] as List).cast<Map<String, dynamic>>());
     });
   }
 

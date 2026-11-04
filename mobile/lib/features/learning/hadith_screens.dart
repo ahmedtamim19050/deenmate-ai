@@ -125,7 +125,7 @@ class _HadithRecordsScreenState extends ConsumerState<HadithRecordsScreen> {
                         if (h['book'] != null) Text('${h['book']}', style: context.text.bodySmall),
                         if (h['arabic'] != null) ...[
                           const SizedBox(height: 10),
-                          Text(h['arabic'] as String, textDirection: TextDirection.rtl, textAlign: TextAlign.right, style: const TextStyle(fontFamily: 'NotoNaskhArabic', fontSize: 19, height: 1.8)),
+                          Text(h['arabic'] as String, textDirection: TextDirection.rtl, textAlign: TextAlign.right, style: const TextStyle(fontFamily: 'ScheherazadeNew', fontSize: 19, height: 1.8)),
                         ],
                         const SizedBox(height: 10),
                         SelectableText(h['translation'] as String? ?? l.translationUnavailable),

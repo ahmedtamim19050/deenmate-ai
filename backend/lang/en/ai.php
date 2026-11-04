@@ -7,6 +7,7 @@ return [
     'limit_reached' => 'You have reached today\'s limit for the AI assistant. Please try again tomorrow.',
     'insufficient' => 'I cannot give a verified answer to this. The reviewed sources available to me do not cover it well enough. For a reliable answer, please ask a qualified scholar or teacher you trust.',
     'provider_error' => 'The AI service is having a problem right now. Please try again in a little while.',
+    'quran_heading' => 'From the Quran:',
     'differences_heading' => 'Differences of scholarly opinion:',
     'not_a_fatwa' => 'This is educational information, not a fatwa. For a ruling on your own situation, please consult a qualified scholar.',
 ];

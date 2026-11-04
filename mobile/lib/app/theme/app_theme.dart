@@ -12,7 +12,7 @@ class AppColors {
 }
 
 class AppTheme {
-  static const fontFallback = ['NotoNaskhArabic', 'NotoSansBengali'];
+  static const fontFallback = ['HindSiliguri', 'NotoNaskhArabic'];
 
   static ThemeData light() => _build(
     ColorScheme.fromSeed(seedColor: AppColors.emerald, brightness: Brightness.light).copyWith(
@@ -53,7 +53,7 @@ class AppTheme {
       titleLarge: base.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
       titleMedium: base.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
       titleSmall: base.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-      bodyMedium: base.textTheme.bodyMedium?.copyWith(height: 1.45),
+      bodyMedium: base.textTheme.bodyMedium?.copyWith(height: 1.55),
       bodyLarge: base.textTheme.bodyLarge?.copyWith(height: 1.5),
     );
     final radius = BorderRadius.circular(14);
@@ -106,9 +106,9 @@ class AppTheme {
 }
 
 /// Quran text uses a dedicated face and is always laid out right to left.
-TextStyle quranTextStyle(BuildContext context, {double size = 26}) => TextStyle(
-  fontFamily: 'AmiriQuran',
+TextStyle quranTextStyle(BuildContext context, {double size = 30}) => TextStyle(
+  fontFamily: 'ScheherazadeNew',
   fontSize: size,
-  height: 2.1,
+  height: 1.9,
   color: Theme.of(context).colorScheme.onSurface,
 );

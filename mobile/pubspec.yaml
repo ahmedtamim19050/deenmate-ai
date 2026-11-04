@@ -90,15 +90,23 @@ flutter:
     - family: Manrope
       fonts:
         - asset: assets/fonts/Manrope.ttf
-    - family: AmiriQuran
+    - family: ScheherazadeNew
       fonts:
-        - asset: assets/fonts/AmiriQuran.ttf
+        - asset: assets/fonts/ScheherazadeNew-Regular.ttf
+        - asset: assets/fonts/ScheherazadeNew-Bold.ttf
+          weight: 700
     - family: NotoNaskhArabic
       fonts:
         - asset: assets/fonts/NotoNaskhArabic.ttf
-    - family: NotoSansBengali
+    - family: HindSiliguri
       fonts:
-        - asset: assets/fonts/NotoSansBengali.ttf
+        - asset: assets/fonts/HindSiliguri-Regular.ttf
+        - asset: assets/fonts/HindSiliguri-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/HindSiliguri-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/HindSiliguri-Bold.ttf
+          weight: 700
 
 flutter_launcher_icons:
   android: true

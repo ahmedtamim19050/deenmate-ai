@@ -33,8 +33,6 @@ class PrayerSettingsScreen extends ConsumerWidget {
           Text(l.onboardMethodBody, style: context.text.bodySmall),
           const SizedBox(height: 8),
           MethodPicker(settings: s, onChanged: (v) => _save(ref, v)),
-          SectionHeader(l.asrMethod),
-          AsrPicker(settings: s, onChanged: (v) => _save(ref, v)),
           SectionHeader(l.highLatitudeRule),
           Text(l.highLatitudeHelp, style: context.text.bodySmall),
           const SizedBox(height: 8),

@@ -32,10 +32,10 @@ question
   -> provider configured?  otherwise an honest notice
   -> daily token budget?   otherwise an honest notice
   -> retrieve from approved sources only
-  -> nothing found?        "no verified answer", no model call
+  -> no Quran passage?     "no verified answer", no model call
   -> model call with sources as data, JSON schema enforced
   -> validate the answer
-  -> format, with citations rebuilt from the database
+  -> format, adding the cited verses (Arabic and translation) and citations from the database
   -> store, and accept feedback
 ```
 
@@ -46,6 +46,7 @@ question
 - it is empty or not valid JSON
 - the model says the sources are insufficient
 - it cites no sources
+- it cites no Quran passage
 - it cites an id that was not retrieved
 - an inline `[S2]` marker is not listed as cited
 - it mentions a Quran reference (such as `3:200`) that is not on a cited passage

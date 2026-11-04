@@ -72,7 +72,7 @@ Open data is not automatically licensed for your use. Confirm each of these, the
 | --- | --- | --- |
 | `quran-uthmani` | AlQuran Cloud | Check the upstream text's attribution and verbatim-copy terms |
 | `en.pickthall` | Pickthall, 1930 | Believed to be out of copyright in many countries, but this varies. Confirm for your markets |
-| `bn.bengali` | Muhiuddin Khan | Rights are held separately. Confirm you may redistribute it |
+| `bn.bengali` | Muhiuddin Khan | Rights are held separately. Confirm you may redistribute it. This is not the Islamic Foundation Bangladesh translation, so do not label it as one |
 | `en.transliteration` | AlQuran Cloud | Confirm terms |
 | Hadith datasets | `fawazahmed0/hadith-api` | The dataset is under The Unlicense, but underlying translations may have their own rights |
 | Recitation audio | `cdn.islamic.network` (Alafasy) | Confirm terms for commercial, ad-supported use, or host licensed audio yourself |

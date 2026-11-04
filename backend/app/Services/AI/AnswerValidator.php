@@ -34,7 +34,12 @@ class AnswerValidator
             }
         }
 
-        $body = $text.' '.($answer['scholarly_differences'] ?? '');
+        if (! $chunks->contains(fn (RetrievedChunk $c) => $c->isQuran() && in_array($c->id, $cited, true))) {
+            return ValidationOutcome::reject('no_quran_citation');
+        }
+
+        // Bangla answers may write references in Bangla digits, which must not skip the checks below.
+        $body = SourceRetriever::asciiDigits($text.' '.($answer['scholarly_differences'] ?? ''));
         preg_match_all('/\[(S\d+)\]/', $body, $inline);
         foreach ($inline[1] as $id) {
             if (! in_array($id, $cited, true)) {

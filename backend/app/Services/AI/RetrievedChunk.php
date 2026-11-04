@@ -12,6 +12,11 @@ class RetrievedChunk
         public readonly float $score,
     ) {}
 
+    public function isQuran(): bool
+    {
+        return $this->chunk->source->source_type === 'quran';
+    }
+
     /** Metadata comes from the database only, so the model cannot alter a citation. */
     public function toCitation(): array
     {

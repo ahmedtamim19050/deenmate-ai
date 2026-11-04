@@ -5,6 +5,7 @@ namespace App\Services\AI;
 use App\Models\ActivityLog;
 use App\Models\AiConversation;
 use App\Models\AiMessage;
+use App\Models\QuranVerse;
 use App\Models\User;
 use App\Services\AI\Contracts\LlmProvider;
 use Illuminate\Support\Collection;
@@ -95,7 +96,8 @@ class IslamicAssistant
         }
 
         $chunks = $this->retriever->search($question);
-        if ($chunks->isEmpty()) {
+        // Every answer rests on the Quran, so nothing goes to the model without a Quran passage.
+        if (! $chunks->contains(fn (RetrievedChunk $c) => $c->isQuran())) {
             return $reply(self::STATUS_INSUFFICIENT, __('ai.insufficient'));
         }
 
@@ -131,15 +133,21 @@ class IslamicAssistant
             return $reply(self::STATUS_INSUFFICIENT, __('ai.insufficient'), $usage);
         }
 
-        return $reply(self::STATUS_ANSWERED, $this->format($answer, $intent), $usage + [
-            'citations' => $chunks->filter(fn (RetrievedChunk $c) => in_array($c->id, $outcome->citedIds, true))
-                ->map(fn (RetrievedChunk $c) => $c->toCitation())->values()->all(),
+        $cited = $chunks->filter(fn (RetrievedChunk $c) => in_array($c->id, $outcome->citedIds, true));
+
+        return $reply(self::STATUS_ANSWERED, $this->format($answer, $intent, $cited), $usage + [
+            'citations' => $cited->map(fn (RetrievedChunk $c) => $c->toCitation())->values()->all(),
         ]);
     }
 
-    private function format(array $answer, string $intent): string
+    /** @param Collection<int, RetrievedChunk> $cited */
+    private function format(array $answer, string $intent, Collection $cited): string
     {
         $text = trim($answer['answer']);
+        $verses = $this->quranVerses($cited);
+        if ($verses !== '') {
+            $text .= "\n\n".__('ai.quran_heading')."\n".$verses;
+        }
         if (filled($answer['scholarly_differences'] ?? null)) {
             $text .= "\n\n".__('ai.differences_heading')."\n".trim($answer['scholarly_differences']);
         }
@@ -148,6 +156,26 @@ class IslamicAssistant
         }
 
         return $text;
+    }
+
+    /**
+     * The verses shown under an answer come from the database, never from model text.
+     *
+     * @param  Collection<int, RetrievedChunk>  $cited
+     */
+    private function quranVerses(Collection $cited): string
+    {
+        return $cited->filter(fn (RetrievedChunk $c) => $c->isQuran())
+            ->take(3)
+            ->map(function (RetrievedChunk $c) {
+                $reference = (string) $c->chunk->reference;
+                $arabic = preg_match('/^Quran (\d+):(\d+)$/', $reference, $m)
+                    ? QuranVerse::query()->where('surah_id', $m[1])->where('verse_number', $m[2])->value('text_arabic')
+                    : null;
+
+                return implode("\n", array_filter([$reference, $arabic, $c->chunk->content]));
+            })
+            ->implode("\n\n");
     }
 
     private function userTurn(User $user, string $question, string $intent, Collection $chunks): string
@@ -164,7 +192,7 @@ class IslamicAssistant
             $personal = "\n<user_activity_summary>\n".$this->activitySummary($user)."\n</user_activity_summary>";
         }
 
-        return "<sources>\n{$sources}\n</sources>{$personal}\n<question_type>{$intent}</question_type>\n<question>\n{$question}\n</question>";
+        return "<sources>\n{$sources}\n</sources>{$personal}\n<requirement>Base the answer on the Quran: cite at least one passage with type=\"quran\". If no Quran passage addresses the question, set insufficient_sources to true.</requirement>\n<question_type>{$intent}</question_type>\n<question>\n{$question}\n</question>";
     }
 
     /** Sent only when the user opted in, and only as seven-day totals by category. */

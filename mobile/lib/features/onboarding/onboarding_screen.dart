@@ -25,7 +25,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   late PrayerSettings _settings = ref.read(prayerConfigProvider).settings;
   bool? _notificationsGranted;
 
-  static const _pageCount = 10;
+  static const _pageCount = 8;
 
   void _next() {
     if (_page == _pageCount - 1) {
@@ -121,18 +121,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     onNext: _next,
                     nextLabel: _settings.hasLocation ? l.continueLabel : l.skipForNow,
                     child: LocationPicker(settings: _settings, onChanged: _saveSettings),
-                  ),
-                  _Step(
-                    title: l.onboardMethodTitle,
-                    body: l.onboardMethodBody,
-                    onNext: _next,
-                    child: MethodPicker(settings: _settings, onChanged: _saveSettings),
-                  ),
-                  _Step(
-                    title: l.onboardAsrTitle,
-                    body: l.onboardAsrBody,
-                    onNext: _next,
-                    child: AsrPicker(settings: _settings, onChanged: _saveSettings),
                   ),
                   _Step(
                     title: l.onboardNotificationsTitle,

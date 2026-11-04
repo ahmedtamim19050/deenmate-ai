@@ -285,28 +285,3 @@ class MethodPicker extends StatelessWidget {
   );
 }
 
-class AsrPicker extends StatelessWidget {
-  const AsrPicker({super.key, required this.settings, required this.onChanged});
-
-  final PrayerSettings settings;
-  final ValueChanged<PrayerSettings> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = context.l10n;
-    return RadioGroup<String>(
-      groupValue: settings.asrMethod,
-      onChanged: (v) {
-        if (v != null) onChanged(settings.copyWith(asrMethod: v));
-      },
-      child: Card(
-        child: Column(
-          children: [
-            RadioListTile<String>(value: 'standard', title: Text(l.asrStandard), subtitle: Text(l.asrStandardBody)),
-            RadioListTile<String>(value: 'hanafi', title: Text(l.asrHanafi), subtitle: Text(l.asrHanafiBody)),
-          ],
-        ),
-      ),
-    );
-  }
-}

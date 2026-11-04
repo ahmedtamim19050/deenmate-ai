@@ -16,8 +16,8 @@ class CalculationMethodInfo {
   final double? maghrib;
 }
 
-/// Same parameters as the server, so device and API schedules agree. The user chooses:
-/// no method is assumed from a country.
+/// Same parameters as the server, so device and API schedules agree. Karachi is the default,
+/// and it can be changed in prayer settings.
 const calculationMethods = <CalculationMethodInfo>[
   CalculationMethodInfo('MWL', 'Muslim World League', 18, isha: 17),
   CalculationMethodInfo('ISNA', 'Islamic Society of North America', 15, isha: 15),

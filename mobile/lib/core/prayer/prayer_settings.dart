@@ -1,3 +1,7 @@
+/// Karachi with Hanafi Asr is the app-wide default. The app does not ask users to pick a school of thought.
+const defaultCalculationMethod = 'KARACHI';
+const fixedAsrMethod = 'hanafi';
+
 /// Mirrors the server's user_prayer_settings. Works without an account or GPS.
 class PrayerSettings {
   const PrayerSettings({
@@ -8,8 +12,8 @@ class PrayerSettings {
     this.longitude,
     this.timezone = 'UTC',
     this.followDeviceTimezone = true,
-    this.calculationMethod = 'MWL',
-    this.asrMethod = 'standard',
+    this.calculationMethod = defaultCalculationMethod,
+    this.asrMethod = fixedAsrMethod,
     this.highLatitudeRule = 'angle_based',
     this.offsets = const {},
   });
@@ -81,8 +85,9 @@ class PrayerSettings {
     longitude: (j['longitude'] as num?)?.toDouble(),
     timezone: j['timezone'] as String? ?? 'UTC',
     followDeviceTimezone: j['follow_device_timezone'] as bool? ?? true,
-    calculationMethod: j['calculation_method'] as String? ?? 'MWL',
-    asrMethod: j['asr_method'] as String? ?? 'standard',
+    calculationMethod: j['calculation_method'] as String? ?? defaultCalculationMethod,
+    // Not a user choice: older saved values are replaced with the app-wide setting.
+    asrMethod: fixedAsrMethod,
     highLatitudeRule: j['high_latitude_rule'] as String? ?? 'angle_based',
     offsets: {for (final p in prayerOffsetKeys) p: (j['${p}_offset'] as num?)?.toInt() ?? 0},
   );

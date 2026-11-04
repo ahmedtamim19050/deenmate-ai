@@ -11,7 +11,7 @@
 
 ## Methods
 
-The person chooses. No method is assumed from a country, and MWL is only a neutral starting value.
+The app defaults to Karachi with Hanafi Asr and does not ask people to pick a school of thought. The method can be changed in prayer settings, and each prayer time can be adjusted with a manual offset. No method is assumed from a country.
 
 | Key | Name | Fajr | Isha |
 | --- | --- | --- | --- |

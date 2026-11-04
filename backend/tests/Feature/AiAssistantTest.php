@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\ActivityLog;
 use App\Models\AiMessage;
 use App\Models\IslamicSource;
+use App\Models\QuranSurah;
+use App\Models\QuranVerse;
 use App\Models\SalahRecord;
 use App\Models\User;
 use App\Models\UserPreference;
@@ -12,6 +14,7 @@ use App\Services\AI\Contracts\LlmProvider;
 use App\Services\AI\LlmException;
 use App\Services\AI\LlmResponse;
 use App\Services\AI\Providers\UnconfiguredProvider;
+use App\Services\AI\SourceRetriever;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -283,5 +286,79 @@ class AiAssistantTest extends TestCase
 
         $this->actingUser();
         $this->postJson('/api/v1/ai/feedback', ['message_id' => $id, 'rating' => 'helpful'])->assertNotFound();
+    }
+
+    public function test_answer_that_cites_no_quran_passage_is_rejected(): void
+    {
+        $this->source();
+        $hadith = IslamicSource::create(['title' => 'Test hadith', 'source_type' => 'hadith', 'reference_identifier' => 'collection:test', 'language' => 'en']);
+        $hadith->chunks()->create(['chunk_index' => 0, 'reference' => 'Nawawi 1', 'content' => 'Patience and prayer are mentioned here too.']);
+        $hadith->forceFill(['verification_status' => 'approved'])->save();
+        $this->actingUser();
+
+        $reply = $this->goodReply();
+        $this->useProvider(['answer' => 'Only the hadith [S2].', 'cited_source_ids' => ['S2']] + $reply);
+
+        $this->ask()->assertJsonPath('data.status', 'insufficient_sources');
+    }
+
+    public function test_without_a_quran_passage_the_model_is_never_called(): void
+    {
+        $hadith = IslamicSource::create(['title' => 'Test hadith', 'source_type' => 'hadith', 'reference_identifier' => 'collection:test', 'language' => 'en']);
+        $hadith->chunks()->create(['chunk_index' => 0, 'reference' => 'Nawawi 1', 'content' => 'Patience and prayer are mentioned here.']);
+        $hadith->forceFill(['verification_status' => 'approved'])->save();
+        $fake = $this->useProvider($this->goodReply());
+        $this->actingUser();
+
+        $this->ask()->assertJsonPath('data.status', 'insufficient_sources');
+        $this->assertCount(0, $fake->calls);
+    }
+
+    public function test_quran_passages_are_retrieved_ahead_of_other_sources(): void
+    {
+        for ($i = 0; $i < 3; $i++) {
+            $hadith = IslamicSource::create(['title' => "Hadith {$i}", 'source_type' => 'hadith', 'reference_identifier' => "collection:{$i}", 'language' => 'en']);
+            $hadith->chunks()->create(['chunk_index' => 0, 'reference' => "Nawawi {$i}", 'content' => 'Patience and prayer.']);
+            $hadith->forceFill(['verification_status' => 'approved'])->save();
+        }
+        $this->source();
+
+        $found = app(SourceRetriever::class)->search('patience and prayer');
+
+        $this->assertSame('quran', $found->first()->chunk->source->source_type);
+    }
+
+    public function test_bangla_question_finds_a_passage_with_a_different_spelling_and_ending(): void
+    {
+        $this->source('approved', 'Quran 2:153', 'তোমরা ধৈর্য্য ও নামাযের মাধ্যমে সাহায্য প্রার্থনা কর।');
+        $retriever = app(SourceRetriever::class);
+
+        $this->assertSame('Quran 2:153', $retriever->search('নামাজের কথা')->first()?->chunk->reference);
+        $this->assertSame('Quran 2:153', $retriever->search('ধৈর্য সম্পর্কে কুরআন কী বলে?')->first()?->chunk->reference);
+        $this->assertSame('Quran 2:153', $retriever->search('২:১৫৩')->first()?->chunk->reference);
+    }
+
+    public function test_bangla_digit_reference_that_was_not_retrieved_is_rejected(): void
+    {
+        $this->source();
+        $this->useProvider($this->goodReply(['answer' => 'আয়াত ৩:২০০ দেখুন [S1].']));
+        $this->actingUser();
+
+        $this->ask()->assertJsonPath('data.status', 'insufficient_sources');
+    }
+
+    public function test_answer_shows_the_cited_verse_from_the_database(): void
+    {
+        $this->source();
+        QuranSurah::create(['id' => 2, 'name_arabic' => 'البقرة', 'name_transliterated' => 'Al-Baqara', 'name_english' => 'The Cow', 'revelation_place' => 'medinan', 'verse_count' => 286]);
+        QuranVerse::create(['surah_id' => 2, 'verse_number' => 153, 'text_arabic' => 'يَا أَيُّهَا الَّذِينَ آمَنُوا', 'text_source' => 'test']);
+        $this->useProvider($this->goodReply());
+        $this->actingUser();
+
+        $content = $this->ask()->assertJsonPath('data.status', 'answered')->json('data.content');
+
+        $this->assertStringContainsString('Quran 2:153', $content);
+        $this->assertStringContainsString('يَا أَيُّهَا الَّذِينَ آمَنُوا', $content);
+        $this->assertStringContainsString('Seek help through patience and prayer.', $content);
     }
 }

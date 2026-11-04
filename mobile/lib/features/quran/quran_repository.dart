@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/providers/providers.dart';
 import '../../shared/repositories/cached_fetch.dart';
 
+/// Bangla is the default translation for every app language. Others can be picked in the reader.
+const defaultTranslationEdition = 'bn.bengali';
+
 class Surah {
   const Surah(this.id, this.arabic, this.name, this.english, this.place, this.verses);
 

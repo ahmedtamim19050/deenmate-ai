@@ -16,21 +16,46 @@ class SourceRetriever
         'quran', 'surah', 'verse', 'verses', 'ayah', 'hadith', 'give', 'know', 'want', 'should', 'would', 'could', 'there', 'their',
     ];
 
+    private const BANGLA_STOP_WORDS = [
+        'কুরআন', 'কোরআন', 'কুরআনে', 'কোরআনে', 'সূরা', 'সুরা', 'আয়াত', 'হাদিস', 'হাদীস', 'ইসলাম', 'ইসলামে', 'মুসলিম', 'মুসলমান',
+        'সম্পর্কে', 'বিষয়ে', 'নিয়ে', 'কিভাবে', 'কীভাবে', 'কেন', 'কখন', 'কোথায়', 'কোন', 'কোনো', 'একটি', 'এবং', 'অথবা', 'আমি', 'আমার',
+        'আমাকে', 'আপনি', 'আপনার', 'তুমি', 'তোমার', 'করতে', 'করব', 'করবো', 'করে', 'করি', 'হবে', 'হয়', 'বলে', 'বলা', 'বলেন', 'বলুন',
+        'আছে', 'নেই', 'দিন', 'দাও', 'মানে', 'অর্থ',
+    ];
+
+    private const BANGLA_SUFFIXES = ['গুলোর', 'গুলো', 'দের', 'ের', 'কে', 'তে'];
+
+    /** Spellings that differ across Bangla texts, such as নামাজ and নামায. */
+    private const BANGLA_SPELLINGS = [['জ', 'য'], ['য', 'জ'], ['র্য্য', 'র্য'], ['র্য', 'র্য্য'], ['ী', 'ি'], ['ূ', 'ু']];
+
+    /** The rest of the retrieval limit is filled with Quran passages first. */
+    private const OTHER_SOURCE_SLOTS = 2;
+
+    public static function asciiDigits(string $text): string
+    {
+        return strtr($text, ['০' => '0', '১' => '1', '২' => '2', '৩' => '3', '৪' => '4', '৫' => '5', '৬' => '6', '৭' => '7', '৮' => '8', '৯' => '9']);
+    }
+
     /** @return Collection<int, RetrievedChunk> */
     public function search(string $question, ?int $limit = null): Collection
     {
         $limit ??= (int) config('deenmate.ai.retrieval_limit');
+        $question = self::asciiDigits($question);
         $byReference = $this->byReference($question);
         $keywords = $this->keywords($question);
 
         $remaining = $limit - $byReference->count();
-        $byText = ($keywords === [] || $remaining <= 0)
-            ? collect()
-            : (DB::getDriverName() === 'mysql'
-                ? $this->fullText($keywords, $remaining)
-                : $this->likeSearch($keywords, $remaining));
+        $quran = collect();
+        $others = collect();
+        if ($keywords !== [] && $remaining > 0) {
+            $quran = $this->textSearch($keywords, max(1, $remaining - self::OTHER_SOURCE_SLOTS), fn ($q) => $q->where('source_type', 'quran'));
+            $left = min($remaining - $quran->count(), self::OTHER_SOURCE_SLOTS);
+            if ($left > 0) {
+                $others = $this->textSearch($keywords, $left, fn ($q) => $q->where('source_type', '!=', 'quran'));
+            }
+        }
 
-        return $byReference->concat($byText)
+        return $byReference->concat($quran)->concat($others)
             ->unique('id')
             ->take($limit)
             ->values()
@@ -44,15 +69,84 @@ class SourceRetriever
 
         return array_values(array_unique(array_filter(
             $tokens,
-            fn (string $t) => mb_strlen($t) >= 3 && ! in_array($t, self::STOP_WORDS, true),
+            fn (string $t) => mb_strlen($t) >= 3 && ! in_array($t, self::STOP_WORDS, true) && ! in_array($t, self::BANGLA_STOP_WORDS, true),
         )));
     }
 
-    private function approved()
+    private function approved(?callable $scope = null)
     {
         return IslamicSourceChunk::query()
-            ->whereHas('source', fn ($q) => $q->where('verification_status', 'approved'))
+            ->whereHas('source', function ($q) use ($scope) {
+                $q->where('verification_status', 'approved');
+                if ($scope) {
+                    $scope($q);
+                }
+            })
             ->with('source');
+    }
+
+    private function textSearch(array $keywords, int $limit, callable $scope): Collection
+    {
+        $isBangla = fn (string $k) => preg_match('/\p{Bengali}/u', $k) === 1;
+        $bangla = array_values(array_filter($keywords, $isBangla));
+        $other = array_values(array_filter($keywords, fn (string $k) => ! $isBangla($k)));
+
+        $found = $bangla === [] ? collect() : $this->banglaSearch($bangla, $limit, $scope);
+        $left = $limit - $found->count();
+        if ($other !== [] && $left > 0) {
+            $found = $found->concat(DB::getDriverName() === 'mysql'
+                ? $this->fullText($other, $left, $scope)
+                : $this->likeSearch($other, $left, $scope));
+        }
+
+        return $found;
+    }
+
+    /**
+     * FULLTEXT only matches whole Bangla tokens, so it misses inflected forms and spelling
+     * variants. Bangla uses substring matching, ranked by how many keywords a passage contains.
+     */
+    private function banglaSearch(array $keywords, int $limit, callable $scope): Collection
+    {
+        $parts = [];
+        $bindings = [];
+        foreach (array_slice($keywords, 0, 8) as $keyword) {
+            $variants = $this->banglaVariants($keyword);
+            $parts[] = '('.implode(' OR ', array_fill(0, count($variants), 'content LIKE ?')).')';
+            foreach ($variants as $variant) {
+                $bindings[] = '%'.addcslashes($variant, '%_').'%';
+            }
+        }
+
+        return $this->approved($scope)
+            ->select('islamic_source_chunks.*')
+            ->selectRaw('('.implode(' + ', $parts).') as score', $bindings)
+            ->whereRaw('('.implode(' OR ', $parts).')', $bindings)
+            ->orderByDesc('score')
+            ->orderBy('id')
+            ->limit($limit)
+            ->get();
+    }
+
+    /** @return array<int, string> */
+    private function banglaVariants(string $keyword): array
+    {
+        $variants = [$keyword];
+        foreach (self::BANGLA_SUFFIXES as $suffix) {
+            $stem = mb_substr($keyword, 0, mb_strlen($keyword) - mb_strlen($suffix));
+            if (str_ends_with($keyword, $suffix) && mb_strlen($stem) >= 3) {
+                $variants[] = $stem;
+                break;
+            }
+        }
+        foreach (self::BANGLA_SPELLINGS as [$from, $to]) {
+            foreach ($variants as $variant) {
+                $variants[] = str_replace($from, $to, $variant);
+            }
+            $variants = array_values(array_unique($variants));
+        }
+
+        return array_slice($variants, 0, 8);
     }
 
     private function byReference(string $question): Collection
@@ -65,12 +159,12 @@ class SourceRetriever
         return $this->approved()->whereIn('reference', $references)->limit(6)->get();
     }
 
-    private function fullText(array $keywords, int $limit): Collection
+    private function fullText(array $keywords, int $limit, ?callable $scope = null): Collection
     {
         // Boolean mode with quoted terms keeps user text from becoming query operators.
         $terms = implode(' ', array_map(fn (string $k) => '"'.str_replace('"', '', $k).'"', array_slice($keywords, 0, 12)));
 
-        return $this->approved()
+        return $this->approved($scope)
             ->select('islamic_source_chunks.*')
             ->selectRaw('MATCH(content) AGAINST(? IN BOOLEAN MODE) as score', [$terms])
             ->whereRaw('MATCH(content) AGAINST(? IN BOOLEAN MODE)', [$terms])
@@ -80,11 +174,11 @@ class SourceRetriever
     }
 
     /** Fallback for databases without FULLTEXT, such as the SQLite test database. */
-    private function likeSearch(array $keywords, int $limit): Collection
+    private function likeSearch(array $keywords, int $limit, ?callable $scope = null): Collection
     {
         $needed = min(2, count($keywords));
 
-        return $this->approved()
+        return $this->approved($scope)
             ->where(function ($q) use ($keywords) {
                 foreach ($keywords as $k) {
                     $q->orWhere('content', 'like', '%'.addcslashes($k, '%_').'%');
