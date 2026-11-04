@@ -1,0 +1,21 @@
+# Secrets and signing material must never be committed.
+.env
+.env.*
+!.env.example
+!.env.production.example
+*.jks
+*.keystore
+key.properties
+google-services.json
+GoogleService-Info.plist
+*service-account*.json
+.DS_Store
+
+# Junction to backend/public, so Laragon's auto virtual host serves only that folder.
+/public
+
+# Holds this PC's network address.
+/mobile/env/device.json
+
+# Gradle reports. Flutter's own rule only covers mobile/build/.
+/mobile/android/build/
