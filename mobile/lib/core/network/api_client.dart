@@ -65,7 +65,18 @@ class ApiClient {
 
   ApiException _map(DioException e) {
     final status = e.response?.statusCode;
-    if (status == null) return ApiException(ApiErrorKind.offline, 'No connection');
+    if (status == null) {
+      final timedOut = switch (e.type) {
+        DioExceptionType.connectionTimeout ||
+        DioExceptionType.sendTimeout ||
+        DioExceptionType.receiveTimeout => true,
+        _ => false,
+      };
+      return ApiException(
+        ApiErrorKind.offline,
+        timedOut ? 'Request timed out' : 'No connection',
+      );
+    }
     final body = e.response?.data;
     final message = body is Map && body['message'] is String ? body['message'] as String : 'Request failed';
     switch (status) {

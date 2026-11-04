@@ -34,7 +34,7 @@ return [
         'ttl_hours' => (int) env('DATA_EXPORT_TTL_HOURS', 72),
     ],
 
-    'trusted_proxies' => array_filter(array_map('trim', explode(',', env('TRUSTED_PROXIES', '127.0.0.1')))),
+    'trusted_proxies' => array_values(array_filter(array_map('trim', explode(',', env('TRUSTED_PROXIES', ''))))),
 
     'password_reset_url' => env('PASSWORD_RESET_URL', 'deenmate://reset-password'),
 

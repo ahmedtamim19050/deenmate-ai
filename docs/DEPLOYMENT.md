@@ -20,16 +20,31 @@ Ready-made configs are in `deploy/`. They assume the project is at `/var/www/dee
 
 `sohojware.dev` uses Cloudflare DNS, and any unknown subdomain currently resolves through a wildcard to Cloudflare's addresses. So `deen.sohojware.dev` already answers, but **that is not this app**. A resolving name or a 200 response proves nothing until `/api/v1/config` returns JSON from this API.
 
-Add a specific `A` record for `deen` pointing at the VPS address (and `AAAA` if it has IPv6). A specific record takes priority over the wildcard, so nothing else in the zone needs to change. Check the zone for an existing `deen` record first.
+The expected record is `A`, name `deen`, content the confirmed VPS IPv4 address (and `AAAA` only if the VPS has IPv6). A specific record takes priority over the wildcard, so nothing else in the zone needs to change. Check the zone for an existing `deen` record first; do not delete/replace an existing record or change its proxy status without approval.
 
 ### Behind Cloudflare's proxy
 
 If the record is proxied (orange cloud):
 
 - Set SSL/TLS mode to **Full (strict)**, with a valid certificate on the VPS. Other modes can cause redirect loops or leave the last hop unencrypted.
-- Put Cloudflare's published ranges (https://www.cloudflare.com/ips/) in `TRUSTED_PROXIES`. Otherwise every visitor appears to come from Cloudflare and they all share one rate limit. Only list these if the VPS accepts web traffic solely from Cloudflare, or a client could forge its address.
-- Set a Cloudflare rule to bypass caching for `/api/*` and `/admin*`. Personal API responses must never be cached.
+- Set `TRUSTED_PROXIES` to Cloudflare's published ranges (https://www.cloudflare.com/ips/) only if the VPS firewall accepts web traffic solely from Cloudflare. This allows Laravel to honor forwarded client IP and HTTPS headers without trusting forged headers from direct clients.
+- Set Cloudflare cache rules to bypass `/api/v1/*`, `/admin`, and `/admin/*`. Personal API responses and authenticated admin pages must never be cached.
 - Cloudflare's default 100 second timeout can cut off a slow AI answer. Keep `AI_REQUEST_TIMEOUT` below it.
+- Use a Cloudflare Origin CA certificate only when the hostname remains proxied; otherwise use a publicly trusted Let's Encrypt certificate. Keep the private key on the VPS and point Nginx at the installed certificate paths.
+
+## Database and migrations
+
+The production template uses MySQL on `127.0.0.1`, a dedicated `deenmate` database/user, and an empty password field that must be filled with a strong, unique server-generated credential. Create the database user with access only to that database and host `localhost`; do not reuse any local credentials. Keep MySQL bound to loopback and do not open port 3306 to the internet.
+
+The current migrations create the app's account, activity, points, prayer, AI, learning, system, cache, queue, and Sanctum-token tables. Two migrations add MySQL full-text indexes. Review these migrations against the target MySQL version and confirm the database is new before applying the initial schema; each `down()` path drops application tables and must not be used to roll back production casually. No migrations are run as part of this preparation.
+
+Before any production migration, take a consistent database backup, encrypt it, store a copy off-server, retain daily backups for at least 30 days, and verify restoration to a separate staging database. For existing production data, review a dry-run and the exact pending migration list, then obtain an explicit maintenance window and approval. Never copy the local database or credentials to production.
+
+## Queues and scheduler
+
+The current production template uses the database queue and cache, so Redis is optional. If Redis is installed, enable the existing Laravel Redis configuration with `QUEUE_CONNECTION=redis` and/or `CACHE_STORE=redis`, install/enable the PHP Redis extension, bind Redis to loopback, and configure a strong local ACL password. Do not expose Redis publicly. Failed jobs use the `failed_jobs` database table and are pruned after seven days by the existing daily scheduler.
+
+The worker processes `BuildDataExport` jobs; the schedule prunes expired exports hourly and expired Sanctum tokens and failed jobs daily. Install the supplied Supervisor and cron files only after checking PHP paths, permissions, and service availability on the VPS. After deploying queue-related changes, `php artisan queue:restart` lets the worker finish its current job and exit; Supervisor then restarts it. This command is a future server procedure and was not run here.
 
 ## First deploy
 
@@ -38,7 +53,8 @@ cd /var/www/deenmate-ai/backend
 composer install --no-dev --optimize-autoloader
 cp .env.production.example .env     # then fill in the blanks
 php artisan key:generate
-php artisan migrate --seed --force  # on a NEW database only
+# Review and approve the migration plan before running migrations on the VPS.
+php artisan migrate --seed --force  # only on a verified NEW database
 php artisan filament:assets
 php artisan config:cache && php artisan route:cache && php artisan view:cache
 php artisan quran:import
@@ -87,9 +103,10 @@ curl -I https://deen.sohojware.dev/.env        # must be 403 or 404
 - [ ] A dedicated database user with only this database's rights
 - [ ] `.env` is not web accessible and not in git
 - [ ] `storage/app/private` is not web accessible. Exports live there and are only streamed to their owner
-- [ ] `TRUSTED_PROXIES` is set if you are behind a load balancer, so rate limits see real addresses
+- [ ] `CORS_ALLOWED_ORIGINS` is the production website origin only; authenticated API routes do not use wildcard CORS
+- [ ] `TRUSTED_PROXIES` is empty for direct traffic, or contains only the actual trusted proxy ranges when origin traffic is firewalled to those proxies
 - [ ] `/admin` restricted by network or VPN if possible. Admin accounts use strong, unique passwords. The panel has no two-factor sign-in yet, so consider enabling Filament's multi-factor authentication before launch
-- [ ] Database and storage backups, encrypted, with restore tested
+- [ ] Database and private-storage backups are encrypted, stored off-server, and restore-tested
 - [ ] A privacy policy that names your AI provider and ad network, and terms of use. Add both links in **Application Settings**
 - [ ] A real support address in **Application Settings**
 
