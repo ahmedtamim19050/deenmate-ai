@@ -12,7 +12,6 @@
   "addBookmark": "Add bookmark",
   "addCategory": "Add category",
   "addOptionalPrayer": "Add optional prayer",
-  "adsPrivacy": "Advertising",
   "aiDisclaimer": "Educational help from reviewed sources. Not a fatwa or a scholar.",
   "aiHistory": "Conversation history",
   "aiHistoryCleared": "Your AI history has been cleared.",
@@ -288,8 +287,6 @@
   "periodWeekly": "Weekly",
   "personalGoals": "Personal Goals",
   "personalInformation": "Personal information",
-  "personalizedAds": "Personalized ads",
-  "personalizedAdsBody": "Off by default. Worship records are never used for advertising, whichever you choose.",
   "playRecitation": "Play recitation",
   "pointPreferences": "Point preferences",
   "pointsAwarded": "{points} app points",
@@ -403,7 +400,6 @@
   "soundAndPrivacy": "Sound and privacy",
   "sourceLabel": "Source: {source}",
   "sources": "Sources",
-  "sponsored": "Sponsored",
   "startSmallBody": "Record a prayer, read a page or try a lesson whenever you are ready.",
   "startSmallTitle": "One step at a time",
   "submitAnswers": "Submit answers",
@@ -535,5 +531,7 @@
   "wordByWordUnavailable": "Word-by-word meanings could not be loaded. They need internet.",
   "wordDataSource": "Word meanings and audio: Quran.com",
   "wordLearning": "Word learning",
-  "wordProgress": "Word {current} of {total}"
+  "wordProgress": "Word {current} of {total}",
+  "quranCredits": "Quran text and translation credits",
+  "creditsUnavailable": "Credits could not be loaded right now. They need an internet connection the first time."
 }

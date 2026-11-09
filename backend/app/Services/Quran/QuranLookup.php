@@ -57,7 +57,8 @@ class QuranLookup
 
         return QuranTranslation::query()
             ->with(['verse', 'edition'])
-            ->whereHas('edition', fn ($q) => $q->where('identifier', $edition))
+            // Only approved editions whose AI copy is current are used for retrieval.
+            ->whereHas('edition', fn ($q) => $q->where('identifier', $edition)->aiEligible())
             ->where('text', 'like', '%'.addcslashes(trim($query), '%_\\').'%')
             ->orderBy('quran_verse_id')
             ->limit($limit)

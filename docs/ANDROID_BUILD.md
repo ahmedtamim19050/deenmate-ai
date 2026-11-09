@@ -57,7 +57,7 @@ Outputs:
 - `build/app/outputs/flutter-apk/app-release.apk`
 - `build/app/outputs/bundle/release/app-release.aab`
 
-Release builds default to `https://deen.sohojware.dev/api/v1`. See [ADMOB_SETUP.md](ADMOB_SETUP.md) for the ad flags.
+Release builds default to `https://deen.sohojware.dev/api/v1`. The app contains no ads or ad SDK.
 
 Bump `version` in `pubspec.yaml` for each store upload.
 

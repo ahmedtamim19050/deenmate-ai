@@ -41,7 +41,6 @@ class ProfileController extends Controller
             'haptics_enabled' => ['sometimes', 'boolean'],
             'show_points' => ['sometimes', 'boolean'],
             'ai_personalization_enabled' => ['sometimes', 'boolean'],
-            'ads_personalized' => ['sometimes', 'boolean'],
         ]);
         $preference = UserPreference::query()->firstOrCreate(['user_id' => $request->user()->id]);
         $preference->update($data);
@@ -51,6 +50,6 @@ class ProfileController extends Controller
 
     private function presentable(UserPreference $p): array
     {
-        return $p->only(['locale', 'theme', 'haptics_enabled', 'show_points', 'ai_personalization_enabled', 'ads_personalized']);
+        return $p->only(['locale', 'theme', 'haptics_enabled', 'show_points', 'ai_personalization_enabled']);
     }
 }

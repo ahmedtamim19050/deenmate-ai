@@ -76,7 +76,7 @@ Open data is not automatically licensed for your use. Confirm each of these, the
 | `bn.bengali` | Muhiuddin Khan | Rights are held separately. Confirm you may redistribute it. This is not the Islamic Foundation Bangladesh translation, so do not label it as one |
 | `en.transliteration` | AlQuran Cloud | Confirm terms |
 | Hadith datasets | `fawazahmed0/hadith-api` | The dataset is under The Unlicense, but underlying translations may have their own rights |
-| Recitation audio | `cdn.islamic.network` (Alafasy) | Confirm terms for commercial, ad-supported use, or host licensed audio yourself |
+| Recitation audio | `cdn.islamic.network` (Alafasy) | Confirm terms for use in the app (it is ad-free), or host licensed audio yourself |
 
 To use a different edition, change `QURAN_TRANSLATION_EDITIONS` and run the import again.
 

@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <!-- Lets a reminder fire at the prayer time where the user or OS allows it. Falls back to inexact. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <application
         android:label="DeenQ AI"
@@ -65,7 +64,6 @@
         </receiver>
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
 
-        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="${admobAppId}" />
         <meta-data android:name="flutterEmbedding" android:value="2" />
     </application>
     <queries>

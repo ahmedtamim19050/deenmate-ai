@@ -93,6 +93,6 @@ class PrivacyTest extends TestCase
         $this->actingUser();
         $this->getJson('/api/v1/profile/preferences')->assertOk()
             ->assertJsonPath('data.ai_personalization_enabled', false)
-            ->assertJsonPath('data.ads_personalized', false);
+            ->assertJsonMissingPath('data.ads_personalized');
     }
 }

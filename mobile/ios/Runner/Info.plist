@@ -68,10 +68,6 @@
 		</array>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Optional. Your location is only used to calculate prayer times. You can choose a city instead.</string>
-		<key>GADApplicationIdentifier</key>
-		<string>ca-app-pub-3940256099942544~1458002511</string>
-		<key>NSUserTrackingUsageDescription</key>
-		<string>Optional. This is only used for ad relevance. Your worship records are never used for advertising.</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>

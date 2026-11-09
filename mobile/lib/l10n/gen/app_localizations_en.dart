@@ -50,9 +50,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addOptionalPrayer => 'Add optional prayer';
 
   @override
-  String get adsPrivacy => 'Advertising';
-
-  @override
   String get aiDisclaimer =>
       'Educational help from reviewed sources. Not a fatwa or a scholar.';
 
@@ -957,13 +954,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get personalInformation => 'Personal information';
 
   @override
-  String get personalizedAds => 'Personalized ads';
-
-  @override
-  String get personalizedAdsBody =>
-      'Off by default. Worship records are never used for advertising, whichever you choose.';
-
-  @override
   String get playRecitation => 'Play recitation';
 
   @override
@@ -1349,9 +1339,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sources => 'Sources';
-
-  @override
-  String get sponsored => 'Sponsored';
 
   @override
   String get startSmallBody =>
@@ -1798,4 +1785,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String wordProgress(Object current, Object total) {
     return 'Word $current of $total';
   }
+
+  @override
+  String get quranCredits => 'Quran text and translation credits';
+
+  @override
+  String get creditsUnavailable =>
+      'Credits could not be loaded right now. They need an internet connection the first time.';
 }

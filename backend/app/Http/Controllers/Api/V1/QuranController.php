@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Models\QuranDataSource;
 use App\Models\QuranSurah;
 use App\Models\QuranTranslation;
 use App\Models\QuranTranslationEdition;
@@ -12,6 +13,8 @@ use Illuminate\Http\Request;
 
 class QuranController extends Controller
 {
+    private const EDITION_FIELDS = ['identifier', 'language', 'name', 'translator', 'publisher', 'version', 'attribution_text', 'source_url', 'license', 'license_url'];
+
     public function surahs(): JsonResponse
     {
         return response()->json([
@@ -32,7 +35,7 @@ class QuranController extends Controller
 
         return response()->json(['data' => [
             'surah' => $surah->only(['id', 'name_arabic', 'name_transliterated', 'name_english', 'revelation_place', 'verse_count']),
-            'edition' => $edition?->only(['identifier', 'language', 'name', 'translator', 'source_url', 'license']),
+            'edition' => $edition?->only(self::EDITION_FIELDS),
             // The opening line shown above a surah. In Al-Fatihah it is verse 1, and At-Tawbah has none.
             'basmala' => BasmalaSeparator::hasHeading($surah->id)
                 ? QuranVerse::query()->where('surah_id', 1)->where('verse_number', 1)->value('text_arabic')
@@ -53,8 +56,22 @@ class QuranController extends Controller
     public function editions(): JsonResponse
     {
         return response()->json([
-            'data' => QuranTranslationEdition::query()->where('is_active', true)->orderBy('language')->get(['identifier', 'language', 'name', 'translator', 'source_url', 'license']),
+            'data' => QuranTranslationEdition::query()->where('is_active', true)->orderBy('language')->get(self::EDITION_FIELDS),
         ]);
+    }
+
+    /**
+     * Credits the app must show: each Quran text source with its required attribution (Tanzil asks
+     * for a credit and a link to tanzil.net), and each translation shown in the app with its credit,
+     * licence and link.
+     */
+    public function credits(): JsonResponse
+    {
+        return response()->json(['data' => [
+            'text_sources' => QuranDataSource::query()->orderBy('id')->get(['name', 'website', 'license_name', 'license_url', 'attribution_text']),
+            'translations' => QuranTranslationEdition::query()->where('is_active', true)->orderBy('language')->orderBy('name')
+                ->get(['identifier', 'language', 'name', 'translator', 'publisher', 'version', 'attribution_text', 'source_url', 'license', 'license_url']),
+        ]]);
     }
 
     public function search(Request $request): JsonResponse

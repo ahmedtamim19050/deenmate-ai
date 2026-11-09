@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -10,6 +11,7 @@ import '../../core/widgets/common.dart';
 import '../../shared/models/app_settings.dart';
 import '../../shared/providers/providers.dart';
 import '../onboarding/onboarding_screen.dart';
+import '../quran/quran_repository.dart';
 import '../salah/salah_repository.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
@@ -287,11 +289,11 @@ class _PointPreferencesScreenState extends ConsumerState<PointPreferencesScreen>
   }
 }
 
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     return Scaffold(
       appBar: AppBar(title: Text(l.about)),
@@ -314,9 +316,58 @@ class AboutScreen extends StatelessWidget {
           Text(l.aboutBody),
           const SizedBox(height: 14),
           Text(l.aboutSources, style: context.text.bodySmall),
+          SectionHeader(l.quranCredits),
+          // Credits and links the Quran text and translation licences require.
+          ref
+              .watch(quranCreditsProvider)
+              .when(
+                data: (credits) => Column(children: [for (final c in credits) _CreditCard(credit: c)]),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (_, _) => Text(l.creditsUnavailable, style: context.text.bodySmall),
+              ),
           const SizedBox(height: 14),
           OutlinedButton(onPressed: () => showLicensePage(context: context, applicationName: l.appName), child: Text(l.openSourceLicenses)),
         ],
+      ),
+    );
+  }
+}
+
+class _CreditCard extends StatelessWidget {
+  const _CreditCard({required this.credit});
+
+  final QuranCredit credit;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final url = credit.url;
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 12, 6, 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(credit.title, style: context.text.titleSmall),
+            if (credit.attribution != null) ...[const SizedBox(height: 4), SelectableText(credit.attribution!, style: context.text.bodySmall)],
+            if (credit.licence != null) ...[const SizedBox(height: 4), Text(credit.licence!, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant))],
+            if (url != null && url.isNotEmpty)
+              Row(
+                children: [
+                  Expanded(child: SelectableText(url, style: context.text.bodySmall?.copyWith(color: context.colors.primary))),
+                  IconButton(
+                    tooltip: l.copy,
+                    icon: const Icon(Icons.copy, size: 18),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: url));
+                      if (context.mounted) context.toast(l.copied);
+                    },
+                  ),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }

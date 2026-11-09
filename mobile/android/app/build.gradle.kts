@@ -40,9 +40,6 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        // Google's public sample app id, used until a production id is supplied.
-        manifestPlaceholders["admobAppId"] = (project.findProperty("ADMOB_APP_ID") as String?)
-            ?: "ca-app-pub-3940256099942544~3347511713"
     }
 
     signingConfigs {

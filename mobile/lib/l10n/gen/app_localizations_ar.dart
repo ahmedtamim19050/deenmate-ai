@@ -49,9 +49,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addOptionalPrayer => 'إضافة صلاة نافلة';
 
   @override
-  String get adsPrivacy => 'الإعلانات';
-
-  @override
   String get aiDisclaimer =>
       'مساعدة تعليمية من مصادر مراجَعة، وليست فتوى ولا بديلًا عن العالم.';
 
@@ -943,13 +940,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get personalInformation => 'المعلومات الشخصية';
 
   @override
-  String get personalizedAds => 'إعلانات مخصصة';
-
-  @override
-  String get personalizedAdsBody =>
-      'معطلة افتراضيًا. لا تُستخدم سجلات العبادة للإعلانات أبدًا مهما اخترت.';
-
-  @override
   String get playRecitation => 'تشغيل التلاوة';
 
   @override
@@ -1329,9 +1319,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sources => 'المصادر';
-
-  @override
-  String get sponsored => 'إعلان';
 
   @override
   String get startSmallBody =>
@@ -1774,4 +1761,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String wordProgress(Object current, Object total) {
     return 'الكلمة $current من $total';
   }
+
+  @override
+  String get quranCredits => 'نص القرآن والترجمات: المصادر';
+
+  @override
+  String get creditsUnavailable =>
+      'تعذّر تحميل المصادر الآن. تحتاج إلى اتصال بالإنترنت في المرة الأولى.';
 }

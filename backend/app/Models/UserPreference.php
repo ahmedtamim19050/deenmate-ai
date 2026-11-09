@@ -14,7 +14,6 @@ class UserPreference extends Model
             'haptics_enabled' => 'boolean',
             'show_points' => 'boolean',
             'ai_personalization_enabled' => 'boolean',
-            'ads_personalized' => 'boolean',
         ];
     }
 

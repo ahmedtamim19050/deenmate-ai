@@ -14,7 +14,6 @@ import 'package:timezone/data/latest_10y.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 import 'app/app.dart';
-import 'core/ads/ad_service.dart';
 import 'core/notifications/prayer_notification_service.dart';
 import 'core/security/token_store.dart';
 import 'core/storage/app_database.dart';
@@ -49,7 +48,6 @@ Future<void> main() async {
   await (await AudioSession.instance).configure(const AudioSessionConfiguration.music());
   final downloads = QuranDownloads(await getApplicationDocumentsDirectory());
 
-  final ads = AdService();
   final firebaseReady = await _initFirebase();
 
   final container = ProviderContainer(
@@ -58,15 +56,13 @@ Future<void> main() async {
       tokenStoreProvider.overrideWithValue(tokens),
       databaseProvider.overrideWithValue(AppDatabase()),
       notificationServiceProvider.overrideWithValue(notifications),
-      adServiceProvider.overrideWithValue(ads),
       quranDownloadsProvider.overrideWithValue(downloads),
     ],
   );
 
   runApp(UncontrolledProviderScope(container: container, child: const DeenMateApp()));
 
-  // Started after the first frame, as neither is needed to use the app.
-  unawaited(ads.init(personalized: prefs.adsPersonalized));
+  // Started after the first frame, as it is not needed to use the app.
   if (firebaseReady) unawaited(_registerPush(container));
 }
 

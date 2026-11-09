@@ -355,6 +355,10 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
                   Text(l.textSourceLabel(d.textSource ?? l.unknown), style: c.text.bodySmall),
                   const SizedBox(height: 4),
                   Text(l.translationSourceLabel(d.editionName ?? l.unavailableShort), style: c.text.bodySmall),
+                  if (d.editionAttribution != null) ...[
+                    const SizedBox(height: 4),
+                    SelectableText(d.editionAttribution!, style: c.text.bodySmall),
+                  ],
                 ],
               ),
             ),

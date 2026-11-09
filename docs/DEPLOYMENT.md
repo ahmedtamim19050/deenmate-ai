@@ -107,7 +107,7 @@ curl -I https://deen.sohojware.dev/.env        # must be 403 or 404
 - [ ] `TRUSTED_PROXIES` is empty for direct traffic, or contains only the actual trusted proxy ranges when origin traffic is firewalled to those proxies
 - [ ] `/admin` restricted by network or VPN if possible. Admin accounts use strong, unique passwords. The panel has no two-factor sign-in yet, so consider enabling Filament's multi-factor authentication before launch
 - [ ] Database and private-storage backups are encrypted, stored off-server, and restore-tested
-- [ ] A privacy policy that names your AI provider and ad network, and terms of use. Add both links in **Application Settings**
+- [ ] A privacy policy that names your AI provider, and terms of use. Add both links in **Application Settings**
 - [ ] A real support address in **Application Settings**
 
 ## Admin roles

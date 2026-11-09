@@ -202,7 +202,7 @@ class QuranKnowledgeImportTest extends TestCase
     {
         $this->artisan('quran:import-arabic', $this->files())->assertSuccessful();
         $importer = app(TranslationImporter::class);
-        $edition = ['identifier' => 'xx.test', 'language' => 'bn', 'name' => 'Test edition', 'translator' => 'Tester', 'source_url' => null, 'license' => 'Test licence', 'license_url' => null, 'quran_data_source_id' => null];
+        $edition = ['identifier' => 'xx.test', 'language' => 'bn', 'name' => 'Test edition', 'translator' => 'Tester', 'source_url' => null, 'license' => 'Test licence', 'license_url' => null, 'quran_data_source_id' => null, 'attribution_text' => 'Test edition. Source: test.'];
 
         $texts = [];
         foreach (QuranStructure::VERSE_COUNTS as $i => $count) {

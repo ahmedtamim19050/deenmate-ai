@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/theme/app_theme.dart';
-import '../../core/ads/ad_service.dart';
 import '../../core/notifications/prayer_notification_service.dart';
 import '../../core/prayer/prayer_calculator.dart';
 import '../../core/prayer/prayer_settings.dart';
@@ -28,7 +27,6 @@ class HomeScreen extends ConsumerWidget {
     final auth = ref.watch(authProvider);
     final prefs = ref.watch(prefsProvider);
     final settings = ref.watch(prayerSettingsProvider);
-    final remote = ref.watch(publicSettingsProvider).value;
 
     return Scaffold(
       body: RefreshIndicator(
@@ -67,7 +65,6 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ],
-                  if (remote?.homeAdEnabled ?? true) NativeAdCard(service: ref.watch(adServiceProvider), label: l.sponsored),
                 ],
               ),
             ),

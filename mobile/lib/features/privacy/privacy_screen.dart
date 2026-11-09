@@ -168,20 +168,6 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
             const SizedBox(height: 8),
             Card(child: NavTile(icon: Icons.delete_sweep_outlined, title: l.clearAiHistory, onTap: _clearAi)),
           ],
-          SectionHeader(l.adsPrivacy),
-          Card(
-            child: SwitchListTile(
-              title: Text(l.personalizedAds),
-              subtitle: Text(l.personalizedAdsBody),
-              value: prefs.adsPersonalized,
-              onChanged: (v) {
-                prefs.adsPersonalized = v;
-                ref.read(adServiceProvider).personalized = v;
-                setState(() {});
-                _setPreference('ads_personalized', v);
-              },
-            ),
-          ),
           SectionHeader(l.yourData),
           if (signedIn)
             Card(

@@ -47,13 +47,16 @@ class Verse {
 }
 
 class SurahDetail {
-  const SurahDetail(this.surah, this.basmala, this.verses, this.editionName, this.editionTranslator, this.textSource);
+  const SurahDetail(this.surah, this.basmala, this.verses, this.editionName, this.editionTranslator, this.textSource, {this.editionAttribution});
 
   final Surah surah;
   final String? basmala;
   final List<Verse> verses;
   final String? editionName;
   final String? editionTranslator;
+
+  /// The credit the translation's licence requires, such as "Translation by …".
+  final String? editionAttribution;
   final String? textSource;
 }
 
@@ -95,7 +98,35 @@ final surahDetailProvider = FutureProvider.family<SurahDetail, ({int id, String?
     edition?['name'] as String?,
     edition?['translator'] as String?,
     verses.isEmpty ? null : verses.first['text_source'] as String?,
+    editionAttribution: edition?['attribution_text'] as String?,
   );
+});
+
+/// A credit the app must show for its Quran text or a translation.
+class QuranCredit {
+  const QuranCredit({required this.title, this.attribution, this.licence, this.url});
+
+  final String title;
+  final String? attribution;
+  final String? licence;
+  final String? url;
+}
+
+/// Quran text sources and the translations shown in the app, each with its required credit.
+final quranCreditsProvider = FutureProvider<List<QuranCredit>>((ref) async {
+  final data = await cachedFetch(ref.read(databaseProvider), 'quran:credits', () => ref.read(apiClientProvider).get('/quran/credits'));
+  final d = data['data'] as Map<String, dynamic>;
+  return [
+    for (final s in (d['text_sources'] as List? ?? const []).cast<Map<String, dynamic>>())
+      QuranCredit(title: s['name'] as String, attribution: s['attribution_text'] as String?, licence: s['license_name'] as String?, url: s['website'] as String?),
+    for (final t in (d['translations'] as List? ?? const []).cast<Map<String, dynamic>>())
+      QuranCredit(
+        title: t['name'] as String,
+        attribution: t['attribution_text'] as String?,
+        licence: t['license'] as String?,
+        url: t['source_url'] as String?,
+      ),
+  ];
 });
 
 class VerseBookmark {

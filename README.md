@@ -18,7 +18,7 @@ An Islamic personal growth, learning and worship-tracking companion for Android 
 - There are no leaderboards, no public worship sharing, no point penalties and no shame-based streaks.
 - The AI only uses scholar-approved sources, rejects answers that cite anything it did not retrieve, and says so when it cannot give a verified answer.
 - Personal worship data is not visible to any admin role.
-- Location, notifications and ads personalisation are optional. People can export and delete their data.
+- No ads. Location and notifications are optional. People can export and delete their data.
 
 ## Quick start
 
@@ -84,7 +84,6 @@ The app runs without any of these, and shows an honest state where a feature dep
 | Have a Scholar Reviewer review the starter lessons. They show "Awaiting scholar review" until then | [docs/ISLAMIC_SOURCE_VERIFICATION.md](docs/ISLAMIC_SOURCE_VERIFICATION.md) |
 | Confirm the licence of each Quran translation and Hadith dataset | [docs/ISLAMIC_SOURCE_VERIFICATION.md](docs/ISLAMIC_SOURCE_VERIFICATION.md) |
 | Add an AI provider key | [docs/AI_KNOWLEDGE_BASE.md](docs/AI_KNOWLEDGE_BASE.md) |
-| Add production AdMob ids | [docs/ADMOB_SETUP.md](docs/ADMOB_SETUP.md) |
 | Add Firebase config (optional, for push announcements) | [docs/NOTIFICATIONS.md](docs/NOTIFICATIONS.md) |
 | Create a release signing key | [docs/ANDROID_BUILD.md](docs/ANDROID_BUILD.md) |
 | Have native speakers review the Arabic and Bangla text | `mobile/lib/l10n/` |
@@ -99,7 +98,6 @@ The app runs without any of these, and shows an honest state where a feature dep
 - [Islamic source verification](docs/ISLAMIC_SOURCE_VERIFICATION.md)
 - [Prayer calculation](docs/PRAYER_CALCULATION.md)
 - [Notifications](docs/NOTIFICATIONS.md)
-- [AdMob setup](docs/ADMOB_SETUP.md)
 - [Android build](docs/ANDROID_BUILD.md)
 - [iOS build](docs/IOS_BUILD.md)
 - [Deployment](docs/DEPLOYMENT.md)

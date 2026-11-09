@@ -12,7 +12,6 @@
   "addBookmark": "إضافة إشارة مرجعية",
   "addCategory": "إضافة فئة",
   "addOptionalPrayer": "إضافة صلاة نافلة",
-  "adsPrivacy": "الإعلانات",
   "aiDisclaimer": "مساعدة تعليمية من مصادر مراجَعة، وليست فتوى ولا بديلًا عن العالم.",
   "aiHistory": "سجل المحادثات",
   "aiHistoryCleared": "تم مسح سجل المساعد الذكي.",
@@ -288,8 +287,6 @@
   "periodWeekly": "أسبوعي",
   "personalGoals": "الأهداف الشخصية",
   "personalInformation": "المعلومات الشخصية",
-  "personalizedAds": "إعلانات مخصصة",
-  "personalizedAdsBody": "معطلة افتراضيًا. لا تُستخدم سجلات العبادة للإعلانات أبدًا مهما اخترت.",
   "playRecitation": "تشغيل التلاوة",
   "pointPreferences": "تفضيلات النقاط",
   "pointsAwarded": "{points} نقطة في التطبيق",
@@ -403,7 +400,6 @@
   "soundAndPrivacy": "الصوت والخصوصية",
   "sourceLabel": "المصدر: {source}",
   "sources": "المصادر",
-  "sponsored": "إعلان",
   "startSmallBody": "سجّل صلاة أو اقرأ صفحة أو جرّب درسًا متى كنت مستعدًا.",
   "startSmallTitle": "خطوة بخطوة",
   "submitAnswers": "إرسال الإجابات",
@@ -535,5 +531,7 @@
   "wordByWordUnavailable": "تعذّر تحميل معاني الكلمات. تحتاج إلى الإنترنت.",
   "wordDataSource": "معاني الكلمات والصوت: Quran.com",
   "wordLearning": "تعلّم الكلمات",
-  "wordProgress": "الكلمة {current} من {total}"
+  "wordProgress": "الكلمة {current} من {total}",
+  "quranCredits": "نص القرآن والترجمات: المصادر",
+  "creditsUnavailable": "تعذّر تحميل المصادر الآن. تحتاج إلى اتصال بالإنترنت في المرة الأولى."
 }

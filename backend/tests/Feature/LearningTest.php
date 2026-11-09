@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\QuranDataSource;
 use App\Models\QuranSurah;
 use App\Models\QuranTranslationEdition;
 use App\Models\QuranVerse;
@@ -95,6 +96,20 @@ class LearningTest extends TestCase
             ->assertJsonPath('data.verses.0.text_source', 'test-source')
             ->assertJsonPath('data.edition.identifier', 'en.test');
         $this->getJson('/api/v1/quran/search?q=transl')->assertOk()->assertJsonCount(1, 'data');
+    }
+
+    public function test_credits_list_text_sources_and_only_the_translations_shown_in_the_app(): void
+    {
+        QuranDataSource::create(['slug' => 'tanzil', 'name' => 'Tanzil Project', 'website' => 'https://tanzil.net', 'license_name' => 'CC BY 3.0', 'attribution_text' => 'Quran text: Tanzil Project, https://tanzil.net']);
+        QuranTranslationEdition::create(['identifier' => 'en.shown', 'language' => 'en', 'name' => 'Shown', 'license' => 'x', 'attribution_text' => 'Translation by A, example.org', 'source_url' => 'https://example.org', 'is_active' => true]);
+        QuranTranslationEdition::create(['identifier' => 'en.hidden', 'language' => 'en', 'name' => 'Hidden', 'license' => 'x', 'is_active' => false]);
+
+        $this->getJson('/api/v1/quran/credits')->assertOk()
+            ->assertJsonPath('data.text_sources.0.attribution_text', 'Quran text: Tanzil Project, https://tanzil.net')
+            ->assertJsonCount(1, 'data.translations')
+            ->assertJsonPath('data.translations.0.attribution_text', 'Translation by A, example.org')
+            ->assertJsonPath('data.translations.0.source_url', 'https://example.org');
+        $this->getJson('/api/v1/quran/editions')->assertOk()->assertJsonPath('data.0.attribution_text', 'Translation by A, example.org');
     }
 
     public function test_quran_import_refuses_an_incomplete_dataset(): void

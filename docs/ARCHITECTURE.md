@@ -7,7 +7,7 @@ Flutter app ── HTTPS, bearer token ──> Laravel /api/v1 ──> MySQL
    │                                     │
    ├─ Drift: outbox and caches           ├─ Queue: data exports
    ├─ Local notifications + adhan        ├─ Scheduler: pruning
-   └─ AdMob (Home and Learn only)        └─ LLM provider (server only)
+   └─ No ads or ad SDK                   └─ LLM provider (server only)
 
 Admin browser ──> Filament /admin ──> same database, role gated
 ```
@@ -51,7 +51,7 @@ app/Console/Commands          importers, review, admin creation
 
 ```
 lib/app        theme, router, lifecycle
-lib/core       network, storage, sync, notifications, prayer, ads, widgets
+lib/core       network, storage, sync, notifications, prayer, widgets
 lib/features   one folder per feature
 lib/shared     shared providers, models, repositories
 lib/l10n       en, ar, bn strings

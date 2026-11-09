@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::get('quran/surahs', [QuranController::class, 'surahs']);
         Route::get('quran/surahs/{surah}', [QuranController::class, 'surah']);
         Route::get('quran/editions', [QuranController::class, 'editions']);
+        Route::get('quran/credits', [QuranController::class, 'credits']);
         Route::get('quran/search', [QuranController::class, 'search']);
         Route::get('hadith/collections', [HadithController::class, 'collections']);
         Route::get('hadith/collections/{collection}/records', [HadithController::class, 'records']);

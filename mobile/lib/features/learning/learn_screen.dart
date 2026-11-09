@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/ads/ad_service.dart';
 import '../../core/widgets/common.dart';
-import '../../shared/models/app_settings.dart';
-import '../../shared/providers/providers.dart';
 import 'learning_repository.dart';
 import 'review_badge.dart';
 
@@ -23,14 +20,11 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final categories = {'beginner': l.catBeginner, 'basics': l.catBasics, 'quran': l.catQuran, 'seerah': l.catSeerah, 'history': l.catHistory};
-    final remote = ref.watch(publicSettingsProvider).value;
-    final ads = ref.watch(adServiceProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(l.navLearn),
         actions: [IconButton(tooltip: l.bookmarks, onPressed: () => context.push('/bookmarks'), icon: const Icon(Icons.bookmark_outline))],
       ),
-      bottomNavigationBar: (remote?.learnBannerEnabled ?? false) ? BannerAdStrip(service: ads) : null,
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(coursesProvider),
         child: ListView(
@@ -78,7 +72,6 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                     for (var i = 0; i < courses.length; i++) ...[
                       _CourseCard(course: courses[i]),
                       const SizedBox(height: 10),
-                      if (i == 1 && (remote?.learnAdEnabled ?? true)) NativeAdCard(service: ads, label: l.sponsored),
                     ],
                   ],
                 );

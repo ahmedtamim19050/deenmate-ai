@@ -1,4 +1,3 @@
-import 'package:deenmate_ai/core/ads/ad_service.dart';
 import 'package:deenmate_ai/core/notifications/prayer_notification_service.dart';
 import 'package:deenmate_ai/core/security/token_store.dart';
 import 'package:deenmate_ai/core/storage/app_database.dart';
@@ -46,7 +45,6 @@ Future<(Widget, AppDatabase)> testApp(
       tokenStoreProvider.overrideWithValue(MemoryTokenStore(token)),
       databaseProvider.overrideWithValue(db),
       notificationServiceProvider.overrideWithValue(FakeNotifications()),
-      adServiceProvider.overrideWithValue(AdService()),
       ...extraOverrides.cast(),
     ],
     child: MaterialApp(

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/ads/ad_service.dart';
 import '../../core/network/api_client.dart';
 import '../../core/notifications/prayer_notification_service.dart';
 import '../../core/prayer/prayer_calculator.dart';
@@ -20,7 +19,6 @@ final sharedPrefsProvider = Provider<SharedPreferences>((_) => throw Unimplement
 final tokenStoreProvider = Provider<TokenStore>((_) => throw UnimplementedError());
 final databaseProvider = Provider<AppDatabase>((_) => throw UnimplementedError());
 final notificationServiceProvider = Provider<PrayerNotificationService>((_) => throw UnimplementedError());
-final adServiceProvider = Provider<AdService>((_) => AdService());
 
 final prefsProvider = Provider<AppPrefs>((ref) => AppPrefs(ref.watch(sharedPrefsProvider)));
 

@@ -172,12 +172,6 @@ abstract class AppLocalizations {
   /// **'Add optional prayer'**
   String get addOptionalPrayer;
 
-  /// No description provided for @adsPrivacy.
-  ///
-  /// In en, this message translates to:
-  /// **'Advertising'**
-  String get adsPrivacy;
-
   /// No description provided for @aiDisclaimer.
   ///
   /// In en, this message translates to:
@@ -1828,18 +1822,6 @@ abstract class AppLocalizations {
   /// **'Personal information'**
   String get personalInformation;
 
-  /// No description provided for @personalizedAds.
-  ///
-  /// In en, this message translates to:
-  /// **'Personalized ads'**
-  String get personalizedAds;
-
-  /// No description provided for @personalizedAdsBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Off by default. Worship records are never used for advertising, whichever you choose.'**
-  String get personalizedAdsBody;
-
   /// No description provided for @playRecitation.
   ///
   /// In en, this message translates to:
@@ -2517,12 +2499,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sources'**
   String get sources;
-
-  /// No description provided for @sponsored.
-  ///
-  /// In en, this message translates to:
-  /// **'Sponsored'**
-  String get sponsored;
 
   /// No description provided for @startSmallBody.
   ///
@@ -3315,6 +3291,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Word {current} of {total}'**
   String wordProgress(Object current, Object total);
+
+  /// No description provided for @quranCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran text and translation credits'**
+  String get quranCredits;
+
+  /// No description provided for @creditsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Credits could not be loaded right now. They need an internet connection the first time.'**
+  String get creditsUnavailable;
 }
 
 class _AppLocalizationsDelegate

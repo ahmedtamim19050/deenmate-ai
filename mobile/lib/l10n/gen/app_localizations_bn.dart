@@ -50,9 +50,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get addOptionalPrayer => 'ঐচ্ছিক নামাজ যোগ করুন';
 
   @override
-  String get adsPrivacy => 'বিজ্ঞাপন';
-
-  @override
   String get aiDisclaimer =>
       'পর্যালোচিত উৎস থেকে শিক্ষামূলক সহায়তা। এটি ফতোয়া বা আলেমের বিকল্প নয়।';
 
@@ -958,13 +955,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get personalInformation => 'ব্যক্তিগত তথ্য';
 
   @override
-  String get personalizedAds => 'ব্যক্তিগতকৃত বিজ্ঞাপন';
-
-  @override
-  String get personalizedAdsBody =>
-      'ডিফল্টভাবে বন্ধ। আপনি যা-ই বেছে নিন, ইবাদতের রেকর্ড কখনো বিজ্ঞাপনে ব্যবহৃত হয় না।';
-
-  @override
   String get playRecitation => 'তিলাওয়াত চালান';
 
   @override
@@ -1349,9 +1339,6 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get sources => 'উৎস';
-
-  @override
-  String get sponsored => 'বিজ্ঞাপন';
 
   @override
   String get startSmallBody =>
@@ -1796,4 +1783,11 @@ class AppLocalizationsBn extends AppLocalizations {
   String wordProgress(Object current, Object total) {
     return '$totalটির মধ্যে $current নম্বর শব্দ';
   }
+
+  @override
+  String get quranCredits => 'কুরআনের পাঠ ও অনুবাদের কৃতজ্ঞতা';
+
+  @override
+  String get creditsUnavailable =>
+      'এখন কৃতজ্ঞতার তথ্য আনা যায়নি। প্রথমবার ইন্টারনেট সংযোগ লাগবে।';
 }

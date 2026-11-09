@@ -14,9 +14,6 @@ class AppSettingSeeder extends Seeder
         ['ai_suggested_questions', "What are the five pillars of Islam?\nWhat does the Quran say about patience?\nHow do I begin learning to pray?\nWhat is the meaning of Surah Al-Fatihah?", 'general', true, 'One suggested AI question per line.'],
         ['notifications_broadcast_enabled', '0', 'notifications', false, 'Allow admins to send content announcements by push. Never used for worship records.'],
         ['notifications_default_reminder_minutes', '10', 'notifications', true, 'Default Remind Later duration in minutes.'],
-        ['admob_home_native_enabled', '1', 'admob', true, 'Allow a native ad in the Home feed.'],
-        ['admob_learn_native_enabled', '1', 'admob', true, 'Allow a native ad in the Learn list.'],
-        ['admob_learn_banner_enabled', '0', 'admob', true, 'Allow a banner at the bottom of the Learn course list.'],
     ];
 
     public function run(): void

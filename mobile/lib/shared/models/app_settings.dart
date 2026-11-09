@@ -10,14 +10,6 @@ class PublicSettings {
   final bool aiConfigured;
   final Map<String, dynamic> values;
 
-  bool _flag(String key, bool fallback) {
-    final v = values[key];
-    return v == null ? fallback : '$v' == '1';
-  }
-
-  bool get homeAdEnabled => _flag('admob_home_native_enabled', true);
-  bool get learnAdEnabled => _flag('admob_learn_native_enabled', true);
-  bool get learnBannerEnabled => _flag('admob_learn_banner_enabled', false);
   String get supportEmail => '${values['support_email'] ?? ''}';
   String get privacyUrl => '${values['privacy_policy_url'] ?? ''}';
   String get termsUrl => '${values['terms_url'] ?? ''}';

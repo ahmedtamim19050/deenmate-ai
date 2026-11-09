@@ -173,7 +173,10 @@ class IslamicAssistant
                     ? QuranVerse::query()->where('surah_id', $m[1])->where('verse_number', $m[2])->value('text_arabic')
                     : null;
 
-                return implode("\n", array_filter([$reference, $arabic, $c->chunk->content]));
+                // The published translation, word for word, with its source and version as the credit.
+                $credit = $c->chunk->source->title ? '— '.$c->chunk->source->title : null;
+
+                return implode("\n", array_filter([$reference, $arabic, $c->chunk->content, $credit]));
             })
             ->implode("\n\n");
     }
@@ -192,7 +195,7 @@ class IslamicAssistant
             $personal = "\n<user_activity_summary>\n".$this->activitySummary($user)."\n</user_activity_summary>";
         }
 
-        return "<sources>\n{$sources}\n</sources>{$personal}\n<requirement>Base the answer on the Quran: cite at least one passage with type=\"quran\". If no Quran passage addresses the question, set insufficient_sources to true.</requirement>\n<question_type>{$intent}</question_type>\n<question>\n{$question}\n</question>";
+        return "<sources>\n{$sources}\n</sources>{$personal}\n<requirement>Translations in <sources> are published works: when you quote one, use its exact words in quotation marks and name its title; never present your own wording as that translation; keep your explanation clearly separate from the quotation.</requirement>\n<requirement>Base the answer on the Quran: cite at least one passage with type=\"quran\". If no Quran passage addresses the question, set insufficient_sources to true.</requirement>\n<question_type>{$intent}</question_type>\n<question>\n{$question}\n</question>";
     }
 
     /** Sent only when the user opted in, and only as seven-day totals by category. */

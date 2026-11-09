@@ -3,6 +3,7 @@
 namespace App\Services\AI;
 
 use App\Models\IslamicSourceChunk;
+use App\Models\QuranTranslationEdition;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -75,9 +76,18 @@ class SourceRetriever
 
     private function approved(?callable $scope = null)
     {
+        // Checked on every query: a translation is used only while its edition is approved and its
+        // AI copy matches the reviewed content. A revoked, stale or failed copy is excluded.
+        $eligible = QuranTranslationEdition::query()->aiEligible()->pluck('identifier')->all();
+        $unapprovedEditions = QuranTranslationEdition::query()->whereNotIn('identifier', $eligible)
+            ->pluck('identifier')->map(fn ($id) => "edition:{$id}")->all();
+
         return IslamicSourceChunk::query()
-            ->whereHas('source', function ($q) use ($scope) {
+            ->whereHas('source', function ($q) use ($scope, $unapprovedEditions) {
                 $q->where('verification_status', 'approved');
+                if ($unapprovedEditions !== []) {
+                    $q->whereNotIn('reference_identifier', $unapprovedEditions);
+                }
                 if ($scope) {
                     $scope($q);
                 }

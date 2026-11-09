@@ -12,7 +12,6 @@
   "addBookmark": "বুকমার্ক করুন",
   "addCategory": "ধরন যোগ করুন",
   "addOptionalPrayer": "ঐচ্ছিক নামাজ যোগ করুন",
-  "adsPrivacy": "বিজ্ঞাপন",
   "aiDisclaimer": "পর্যালোচিত উৎস থেকে শিক্ষামূলক সহায়তা। এটি ফতোয়া বা আলেমের বিকল্প নয়।",
   "aiHistory": "কথোপকথনের ইতিহাস",
   "aiHistoryCleared": "আপনার এআই ইতিহাস মুছে ফেলা হয়েছে।",
@@ -288,8 +287,6 @@
   "periodWeekly": "সাপ্তাহিক",
   "personalGoals": "ব্যক্তিগত লক্ষ্য",
   "personalInformation": "ব্যক্তিগত তথ্য",
-  "personalizedAds": "ব্যক্তিগতকৃত বিজ্ঞাপন",
-  "personalizedAdsBody": "ডিফল্টভাবে বন্ধ। আপনি যা-ই বেছে নিন, ইবাদতের রেকর্ড কখনো বিজ্ঞাপনে ব্যবহৃত হয় না।",
   "playRecitation": "তিলাওয়াত চালান",
   "pointPreferences": "পয়েন্টের পছন্দ",
   "pointsAwarded": "{points} অ্যাপ পয়েন্ট",
@@ -403,7 +400,6 @@
   "soundAndPrivacy": "শব্দ ও প্রাইভেসি",
   "sourceLabel": "সূত্র: {source}",
   "sources": "উৎস",
-  "sponsored": "বিজ্ঞাপন",
   "startSmallBody": "প্রস্তুত হলে একটি নামাজ রেকর্ড করুন, এক পৃষ্ঠা পড়ুন বা একটি পাঠ দেখুন।",
   "startSmallTitle": "এক পা এক পা করে",
   "submitAnswers": "উত্তর জমা দিন",
@@ -535,5 +531,7 @@
   "wordByWordUnavailable": "শব্দে শব্দে অর্থ লোড করা যায়নি। এর জন্য ইন্টারনেট লাগবে।",
   "wordDataSource": "শব্দের অর্থ ও অডিও: Quran.com",
   "wordLearning": "শব্দ শেখা",
-  "wordProgress": "{total}টির মধ্যে {current} নম্বর শব্দ"
+  "wordProgress": "{total}টির মধ্যে {current} নম্বর শব্দ",
+  "quranCredits": "কুরআনের পাঠ ও অনুবাদের কৃতজ্ঞতা",
+  "creditsUnavailable": "এখন কৃতজ্ঞতার তথ্য আনা যায়নি। প্রথমবার ইন্টারনেট সংযোগ লাগবে।"
 }

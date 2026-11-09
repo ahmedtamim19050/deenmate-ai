@@ -30,9 +30,6 @@ class AppPrefs {
   bool get aiPersonalization => _p.getBool('ai_personalization') ?? false;
   set aiPersonalization(bool v) => _p.setBool('ai_personalization', v);
 
-  bool get adsPersonalized => _p.getBool('ads_personalized') ?? false;
-  set adsPersonalized(bool v) => _p.setBool('ads_personalized', v);
-
   /// The AlQuran Cloud audio edition chosen in the Quran reader.
   String? get quranReciter => _p.getString('quran_reciter');
   set quranReciter(String? v) => v == null ? _p.remove('quran_reciter') : _p.setString('quran_reciter', v);
@@ -67,7 +64,7 @@ class AppPrefs {
 
   /// Personal settings go, while language and theme stay for the next person who signs in.
   Future<void> clearPersonal() async {
-    for (final key in ['prayer_settings', 'notification_prefs', 'prayer_templates', 'user', 'token_issued_at', 'last_scheduled_date', 'guest_mode']) {
+    for (final key in ['prayer_settings', 'notification_prefs', 'prayer_templates', 'user', 'token_issued_at', 'last_scheduled_date', 'guest_mode', 'ads_personalized']) {
       await _p.remove(key);
     }
   }
