@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('DeenMate AI Admin')
+            ->brandName('DeenQ AI Admin')
             ->colors(['primary' => Color::Emerald])
             ->navigationGroups(['People', 'Activities & Points', 'Content', 'Scholar Review', 'AI', 'System'])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

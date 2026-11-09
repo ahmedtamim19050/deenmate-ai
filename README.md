@@ -1,4 +1,4 @@
-# DeenMate AI
+# DeenQ AI
 
 **Build Your Deen. Strengthen Your Connection with Allah.**
 

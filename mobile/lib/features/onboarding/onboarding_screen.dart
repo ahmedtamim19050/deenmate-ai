@@ -192,7 +192,7 @@ class _Welcome extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset('assets/images/logo_mark.png', width: 72, height: 72),
+                        Image.asset('assets/images/logo_mark_on_brand.png', width: 72, height: 72),
                         const SizedBox(height: 20),
                         Text(l.onboardWelcomeTitle, style: context.text.headlineMedium?.copyWith(color: Colors.white)),
                         const SizedBox(height: 10),

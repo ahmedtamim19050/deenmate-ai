@@ -14,7 +14,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'DeenMate AI is a private companion for building Islamic habits and learning from reliable references. Your records are for you alone. The app cannot verify worship and does not judge anyone.';
+      'DeenQ AI is a private companion for building Islamic habits and learning from reliable references. Your records are for you alone. The app cannot verify worship and does not judge anyone.';
 
   @override
   String get aboutSources =>
@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiTitle => 'AI Assistant';
 
   @override
-  String get appName => 'DeenMate AI';
+  String get appName => 'DeenQ AI';
 
   @override
   String get archive => 'Archive';
@@ -778,7 +778,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get notifPrivateTitle => 'A reminder from DeenMate AI';
+  String get notifPrivateTitle => 'A reminder from DeenQ AI';
 
   @override
   String get notifRemindLater => 'Remind Later';
@@ -837,7 +837,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardDoneTitle => 'You are all set';
 
   @override
-  String get onboardFinish => 'Start using DeenMate AI';
+  String get onboardFinish => 'Start using DeenQ AI';
 
   @override
   String get onboardLanguageTitle => 'Choose your language';
@@ -878,7 +878,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'A private space to build habits, track your journey and learn from reliable references.';
 
   @override
-  String get onboardWelcomeTitle => 'Welcome to DeenMate AI';
+  String get onboardWelcomeTitle => 'Welcome to DeenQ AI';
 
   @override
   String get oneStepAtATime => 'One step at a time.';
@@ -1102,6 +1102,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get readingOptions => 'Reading options';
+
+  @override
+  String get reciter => 'Reciter';
+
+  @override
+  String get reciterLowQuality => 'Lower quality (64 kbps)';
+
+  @override
+  String get reciterOpeningsWarning =>
+      'Surah openings may include extra recitation (unverified)';
 
   @override
   String get recentActivity => 'Recently completed';
@@ -1544,4 +1554,248 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourProgress => 'Your personal progress';
+
+  @override
+  String get addNote => 'Add note';
+
+  @override
+  String get arabicTextSize => 'Arabic text size';
+
+  @override
+  String get autoPlayShort => 'Auto play';
+
+  @override
+  String get backgroundPlaybackNote =>
+      'Recitation keeps playing when you leave the app or lock the screen. Use the notification to control it.';
+
+  @override
+  String get bangla => 'Bangla';
+
+  @override
+  String get bismillah => 'Bismillah';
+
+  @override
+  String get both => 'Both';
+
+  @override
+  String get deleteDownload => 'Delete download';
+
+  @override
+  String get deleteNote => 'Delete';
+
+  @override
+  String downloadDone(Object surah) {
+    return '$surah saved for offline listening';
+  }
+
+  @override
+  String get downloadRange => 'Download verses…';
+
+  @override
+  String get downloadStopped =>
+      'Download stopped. Check your connection and try again.';
+
+  @override
+  String get downloadSurah => 'Download whole surah';
+
+  @override
+  String downloadedCount(Object done, Object total) {
+    return '$done of $total verses saved';
+  }
+
+  @override
+  String downloadingProgress(Object done, Object total) {
+    return 'Downloading $done of $total';
+  }
+
+  @override
+  String get downloads => 'Downloads';
+
+  @override
+  String get downloadsHint =>
+      'Saved audio plays without internet, for the reciter shown above. The surah text and translation are saved too. Tafsir and word-by-word need internet.';
+
+  @override
+  String get editNote => 'Edit note';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get largerText => 'Larger text';
+
+  @override
+  String get moreOptions => 'More options';
+
+  @override
+  String get nextVerse => 'Next verse';
+
+  @override
+  String get nextWord => 'Next word';
+
+  @override
+  String get noneOption => 'None';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get noteHint => 'Write a private note for this verse';
+
+  @override
+  String get notesPrivate => 'Notes are saved only on this device.';
+
+  @override
+  String get nothingPlaying => 'Nothing is playing';
+
+  @override
+  String get nowPlaying => 'Now playing';
+
+  @override
+  String get openInReader => 'Open in reader';
+
+  @override
+  String get playFromHere => 'Play from here';
+
+  @override
+  String get playWord => 'Play word';
+
+  @override
+  String get playbackSpeed => 'Speed';
+
+  @override
+  String get previousVerse => 'Previous verse';
+
+  @override
+  String get previousWord => 'Previous word';
+
+  @override
+  String get queue => 'Queue';
+
+  @override
+  String get rangeFrom => 'From verse';
+
+  @override
+  String get rangeTo => 'To verse';
+
+  @override
+  String get repeat => 'Repeat';
+
+  @override
+  String get repeatOff => 'Off';
+
+  @override
+  String get repeatRange => 'Verse range';
+
+  @override
+  String repeatRangeValue(Object from, Object to) {
+    return 'Verses $from–$to';
+  }
+
+  @override
+  String get repeatSurah => 'Whole surah';
+
+  @override
+  String get repeatThisVerse => 'Repeat this verse';
+
+  @override
+  String repeatTimes(Object count) {
+    return '$count×';
+  }
+
+  @override
+  String get repeatVerse => 'This verse';
+
+  @override
+  String get secondTranslation => 'Also show';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get showMeaning => 'Show meaning';
+
+  @override
+  String get showWordTransliteration => 'Show word transliteration';
+
+  @override
+  String sleepActive(Object time) {
+    return 'Stops at $time';
+  }
+
+  @override
+  String get sleepEndOfVerse => 'End of this verse';
+
+  @override
+  String sleepMinutes(Object minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get sleepOff => 'Off';
+
+  @override
+  String get sleepTimer => 'Sleep timer';
+
+  @override
+  String get smallerText => 'Smaller text';
+
+  @override
+  String get stopPlayback => 'Stop';
+
+  @override
+  String get tafsir => 'Tafsir';
+
+  @override
+  String tafsirAttribution(Object author, Object name) {
+    return 'Source: $name · $author. Provided by Quran.com.';
+  }
+
+  @override
+  String get tafsirGrouped =>
+      'This source explains this verse together with a nearby verse. Try the previous verse.';
+
+  @override
+  String get tafsirOnlineOnly =>
+      'Tafsir needs internet and is not saved on the device, under the provider\'s terms.';
+
+  @override
+  String get tafsirUnavailable => 'Tafsir is not available right now.';
+
+  @override
+  String get translationLabel => 'Translation';
+
+  @override
+  String get translationTextSize => 'Translation text size';
+
+  @override
+  String verseNumber(Object number) {
+    return 'Verse $number';
+  }
+
+  @override
+  String verseRangeInvalid(Object count) {
+    return 'Enter a verse from 1 to $count, with the end after the start.';
+  }
+
+  @override
+  String get wordByWord => 'Word by word';
+
+  @override
+  String get wordByWordHint => 'Tap a word for its meaning and sound';
+
+  @override
+  String get wordByWordUnavailable =>
+      'Word-by-word meanings could not be loaded. They need internet.';
+
+  @override
+  String get wordDataSource => 'Word meanings and audio: Quran.com';
+
+  @override
+  String get wordLearning => 'Word learning';
+
+  @override
+  String wordProgress(Object current, Object total) {
+    return 'Word $current of $total';
+  }
 }

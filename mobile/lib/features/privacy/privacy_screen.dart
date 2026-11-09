@@ -46,7 +46,7 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
         if (status == 'ready') {
           final body = await api.getText('/privacy/export/$id/download');
           final dir = await getTemporaryDirectory();
-          final file = File(p.join(dir.path, 'deenmate-data-export.json'));
+          final file = File(p.join(dir.path, 'deenq-ai-data-export.json'));
           await file.writeAsString(body);
           if (!mounted) return;
           setState(() => _exportStatus = l.exportReady);

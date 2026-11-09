@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/quran/quran_player.dart';
 import '../features/salah/salah_repository.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../shared/providers/providers.dart';
@@ -61,6 +62,7 @@ class _DeenMateAppState extends ConsumerState<DeenMateApp> {
           GlobalCupertinoLocalizations.delegate,
         ],
         routerConfig: _router,
+        builder: (context, child) => QuranMiniPlayerHost(router: _router, child: child ?? const SizedBox.shrink()),
       ),
     );
   }

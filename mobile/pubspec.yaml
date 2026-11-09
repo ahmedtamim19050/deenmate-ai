@@ -1,5 +1,5 @@
 name: deenmate_ai
-description: "DeenMate AI: Islamic personal growth, learning and habit companion."
+description: "DeenQ AI: Islamic personal growth, learning and habit companion."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -60,6 +60,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   share_plus: ^13.3.1
+  just_audio_background: ^0.0.1-beta.17
+  audio_session: ^0.2.4
 
 dev_dependencies:
   flutter_test:
@@ -121,9 +123,9 @@ flutter_native_splash:
   color: "#F8F6EF"
   image: assets/images/splash_logo.png
   color_dark: "#101C19"
-  image_dark: assets/images/splash_logo.png
+  image_dark: assets/images/splash_logo_dark.png
   android_12:
     color: "#F8F6EF"
     image: assets/images/splash_logo.png
     color_dark: "#101C19"
-    image_dark: assets/images/splash_logo.png
+    image_dark: assets/images/splash_logo_dark.png

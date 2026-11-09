@@ -37,7 +37,7 @@ class PrivacyController extends Controller
         $export = $this->owned($request, $uuid);
         abort_unless($export->status === 'ready' && $export->file_path && $export->expires_at?->isFuture(), 404);
 
-        return Storage::disk('local')->download($export->file_path, 'deenmate-data-export.json');
+        return Storage::disk('local')->download($export->file_path, 'deenq-ai-data-export.json');
     }
 
     public function deleteAccount(Request $request, AccountDeletionService $deletion): JsonResponse

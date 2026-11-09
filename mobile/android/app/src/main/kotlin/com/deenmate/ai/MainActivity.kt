@@ -1,5 +1,6 @@
 package com.deenmate.ai
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 
-class MainActivity : FlutterActivity()
+// AudioServiceActivity keeps the Flutter engine shared with the background audio service.
+class MainActivity : AudioServiceActivity()

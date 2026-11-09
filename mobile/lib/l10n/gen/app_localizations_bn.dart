@@ -14,7 +14,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'DeenMate AI হলো ইসলামিক অভ্যাস গড়া এবং নির্ভরযোগ্য সূত্র থেকে শেখার একটি ব্যক্তিগত সঙ্গী। আপনার রেকর্ড শুধু আপনার জন্য। অ্যাপ ইবাদত যাচাই করতে পারে না এবং কাউকে বিচার করে না।';
+      'DeenQ AI হলো ইসলামিক অভ্যাস গড়া এবং নির্ভরযোগ্য সূত্র থেকে শেখার একটি ব্যক্তিগত সঙ্গী। আপনার রেকর্ড শুধু আপনার জন্য। অ্যাপ ইবাদত যাচাই করতে পারে না এবং কাউকে বিচার করে না।';
 
   @override
   String get aboutSources =>
@@ -105,7 +105,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get aiTitle => 'এআই সহায়ক';
 
   @override
-  String get appName => 'DeenMate AI';
+  String get appName => 'DeenQ AI';
 
   @override
   String get archive => 'আর্কাইভ করুন';
@@ -779,7 +779,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get notifPrivateTitle => 'DeenMate AI থেকে একটি রিমাইন্ডার';
+  String get notifPrivateTitle => 'DeenQ AI থেকে একটি রিমাইন্ডার';
 
   @override
   String get notifRemindLater => 'পরে মনে করিয়ে দিন';
@@ -838,7 +838,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get onboardDoneTitle => 'সব প্রস্তুত';
 
   @override
-  String get onboardFinish => 'DeenMate AI ব্যবহার শুরু করুন';
+  String get onboardFinish => 'DeenQ AI ব্যবহার শুরু করুন';
 
   @override
   String get onboardLanguageTitle => 'আপনার ভাষা বেছে নিন';
@@ -879,7 +879,7 @@ class AppLocalizationsBn extends AppLocalizations {
       'অভ্যাস গড়া, আপনার যাত্রা অনুসরণ ও নির্ভরযোগ্য সূত্র থেকে শেখার একটি ব্যক্তিগত জায়গা।';
 
   @override
-  String get onboardWelcomeTitle => 'DeenMate AI-তে স্বাগতম';
+  String get onboardWelcomeTitle => 'DeenQ AI-তে স্বাগতম';
 
   @override
   String get oneStepAtATime => 'এক পা এক পা করে।';
@@ -1103,6 +1103,16 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get readingOptions => 'পড়ার বিকল্প';
+
+  @override
+  String get reciter => 'ক্বারী';
+
+  @override
+  String get reciterLowQuality => 'কম মানের অডিও (64 kbps)';
+
+  @override
+  String get reciterOpeningsWarning =>
+      'সূরার শুরুতে অতিরিক্ত তিলাওয়াত থাকতে পারে (যাচাই হয়নি)';
 
   @override
   String get recentActivity => 'সম্প্রতি সম্পন্ন';
@@ -1542,4 +1552,248 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get yourProgress => 'আপনার ব্যক্তিগত অগ্রগতি';
+
+  @override
+  String get addNote => 'নোট যোগ করুন';
+
+  @override
+  String get arabicTextSize => 'আরবি লেখার আকার';
+
+  @override
+  String get autoPlayShort => 'স্বয়ংক্রিয় শোনা';
+
+  @override
+  String get backgroundPlaybackNote =>
+      'অ্যাপ বন্ধ করলে বা স্ক্রিন লক করলেও তিলাওয়াত চলতে থাকবে। নোটিফিকেশন থেকে নিয়ন্ত্রণ করুন।';
+
+  @override
+  String get bangla => 'বাংলা';
+
+  @override
+  String get bismillah => 'বিসমিল্লাহ';
+
+  @override
+  String get both => 'দুটোই';
+
+  @override
+  String get deleteDownload => 'ডাউনলোড মুছুন';
+
+  @override
+  String get deleteNote => 'মুছুন';
+
+  @override
+  String downloadDone(Object surah) {
+    return '$surah অফলাইনে শোনার জন্য সংরক্ষিত হয়েছে';
+  }
+
+  @override
+  String get downloadRange => 'নির্দিষ্ট আয়াত ডাউনলোড…';
+
+  @override
+  String get downloadStopped =>
+      'ডাউনলোড থেমে গেছে। সংযোগ দেখে আবার চেষ্টা করুন।';
+
+  @override
+  String get downloadSurah => 'পুরো সূরা ডাউনলোড';
+
+  @override
+  String downloadedCount(Object done, Object total) {
+    return '$totalটির মধ্যে $doneটি আয়াত সংরক্ষিত';
+  }
+
+  @override
+  String downloadingProgress(Object done, Object total) {
+    return 'ডাউনলোড হচ্ছে $totalটির মধ্যে $done';
+  }
+
+  @override
+  String get downloads => 'ডাউনলোড';
+
+  @override
+  String get downloadsHint =>
+      'সংরক্ষিত অডিও উপরের ক্বারীর জন্য ইন্টারনেট ছাড়াই চলবে। সূরার পাঠ ও অনুবাদও সংরক্ষিত হবে। তাফসীর ও শব্দে শব্দে অর্থের জন্য ইন্টারনেট লাগবে।';
+
+  @override
+  String get editNote => 'নোট সম্পাদনা';
+
+  @override
+  String get english => 'ইংরেজি';
+
+  @override
+  String get largerText => 'বড় লেখা';
+
+  @override
+  String get moreOptions => 'আরও বিকল্প';
+
+  @override
+  String get nextVerse => 'পরের আয়াত';
+
+  @override
+  String get nextWord => 'পরের শব্দ';
+
+  @override
+  String get noneOption => 'কোনোটি নয়';
+
+  @override
+  String get note => 'নোট';
+
+  @override
+  String get noteHint => 'এই আয়াতের জন্য নিজের নোট লিখুন';
+
+  @override
+  String get notesPrivate => 'নোট শুধু এই ডিভাইসে সংরক্ষিত থাকে।';
+
+  @override
+  String get nothingPlaying => 'এখন কিছু চলছে না';
+
+  @override
+  String get nowPlaying => 'এখন চলছে';
+
+  @override
+  String get openInReader => 'পাঠে খুলুন';
+
+  @override
+  String get playFromHere => 'এখান থেকে শুনুন';
+
+  @override
+  String get playWord => 'শব্দ শুনুন';
+
+  @override
+  String get playbackSpeed => 'গতি';
+
+  @override
+  String get previousVerse => 'আগের আয়াত';
+
+  @override
+  String get previousWord => 'আগের শব্দ';
+
+  @override
+  String get queue => 'তালিকা';
+
+  @override
+  String get rangeFrom => 'আয়াত থেকে';
+
+  @override
+  String get rangeTo => 'আয়াত পর্যন্ত';
+
+  @override
+  String get repeat => 'পুনরাবৃত্তি';
+
+  @override
+  String get repeatOff => 'বন্ধ';
+
+  @override
+  String get repeatRange => 'আয়াতের পরিসর';
+
+  @override
+  String repeatRangeValue(Object from, Object to) {
+    return 'আয়াত $from–$to';
+  }
+
+  @override
+  String get repeatSurah => 'পুরো সূরা';
+
+  @override
+  String get repeatThisVerse => 'এই আয়াত বারবার';
+
+  @override
+  String repeatTimes(Object count) {
+    return '$count×';
+  }
+
+  @override
+  String get repeatVerse => 'এই আয়াত';
+
+  @override
+  String get secondTranslation => 'সাথে আরও দেখান';
+
+  @override
+  String get share => 'শেয়ার';
+
+  @override
+  String get showMeaning => 'অর্থ দেখুন';
+
+  @override
+  String get showWordTransliteration => 'শব্দের উচ্চারণ দেখান';
+
+  @override
+  String sleepActive(Object time) {
+    return '$time-এ থামবে';
+  }
+
+  @override
+  String get sleepEndOfVerse => 'এই আয়াত শেষে';
+
+  @override
+  String sleepMinutes(Object minutes) {
+    return '$minutes মিনিট';
+  }
+
+  @override
+  String get sleepOff => 'বন্ধ';
+
+  @override
+  String get sleepTimer => 'স্লিপ টাইমার';
+
+  @override
+  String get smallerText => 'ছোট লেখা';
+
+  @override
+  String get stopPlayback => 'থামান';
+
+  @override
+  String get tafsir => 'তাফসীর';
+
+  @override
+  String tafsirAttribution(Object author, Object name) {
+    return 'উৎস: $name · $author। Quran.com থেকে প্রদত্ত।';
+  }
+
+  @override
+  String get tafsirGrouped =>
+      'এই উৎসে আয়াতটি কাছের আরেকটি আয়াতের সাথে একসাথে ব্যাখ্যা করা হয়েছে। আগের আয়াতটি দেখুন।';
+
+  @override
+  String get tafsirOnlineOnly =>
+      'তাফসীরের জন্য ইন্টারনেট লাগে এবং সরবরাহকারীর শর্ত অনুযায়ী এটি ডিভাইসে সংরক্ষিত হয় না।';
+
+  @override
+  String get tafsirUnavailable => 'তাফসীর এখন পাওয়া যাচ্ছে না।';
+
+  @override
+  String get translationLabel => 'অনুবাদ';
+
+  @override
+  String get translationTextSize => 'অনুবাদের লেখার আকার';
+
+  @override
+  String verseNumber(Object number) {
+    return 'আয়াত $number';
+  }
+
+  @override
+  String verseRangeInvalid(Object count) {
+    return '১ থেকে $count পর্যন্ত আয়াত লিখুন, শেষটি শুরুর পরে।';
+  }
+
+  @override
+  String get wordByWord => 'শব্দে শব্দে অর্থ';
+
+  @override
+  String get wordByWordHint => 'অর্থ ও উচ্চারণ শুনতে শব্দে চাপুন';
+
+  @override
+  String get wordByWordUnavailable =>
+      'শব্দে শব্দে অর্থ লোড করা যায়নি। এর জন্য ইন্টারনেট লাগবে।';
+
+  @override
+  String get wordDataSource => 'শব্দের অর্থ ও অডিও: Quran.com';
+
+  @override
+  String get wordLearning => 'শব্দ শেখা';
+
+  @override
+  String wordProgress(Object current, Object total) {
+    return '$totalটির মধ্যে $current নম্বর শব্দ';
+  }
 }

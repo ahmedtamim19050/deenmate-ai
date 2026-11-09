@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="DeenMate helps you build a steady, thoughtful Islamic practice with prayer, Quran learning, and daily reflection.">
+    <meta name="description" content="DeenQ AI helps you build a steady, thoughtful Islamic practice with prayer, Quran learning, and daily reflection.">
     <meta name="theme-color" content="#f5f4ed">
-    <title>DeenMate — Grow closer, one day at a time</title>
+    <title>DeenQ AI — Grow closer, one day at a time</title>
     <style>
         :root {
             color-scheme: light;
@@ -63,7 +63,7 @@
             color: white;
         }
 
-        .brand-mark svg { width: 23px; height: 23px; }
+        .brand-mark svg { width: 30px; height: 30px; }
 
         .nav {
             display: flex;
@@ -370,14 +370,9 @@
 </head>
 <body>
     <header class="shell topbar">
-        <a class="brand" href="/" aria-label="DeenMate home">
-            <span class="brand-mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3.5 14 9l5.5 2-5.5 2-2 5.5-2-5.5-5.5-2L10 9l2-5.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                    <path d="m18.5 16 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" fill="currentColor"/>
-                </svg>
-            </span>
-            <span>DeenMate</span>
+        <a class="brand" href="/" aria-label="DeenQ AI home">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none"><g transform="translate(256.0 256.0) scale(1.0022) translate(-301.0 -247.0)"><path d="M 88 256 A 168 168 0 1 0 424 256 A 168 168 0 1 0 88 256 Z M 148 236 A 128 128 0 1 1 404 236 A 128 128 0 1 1 148 236 Z" fill="currentColor" fill-rule="evenodd"/><path d="M 326 388 C 360 440 410 472 466 470 C 489 469 503 458 512 438 C 499 452 483 459 463 459 C 420 459 388 432 358 392 Z" fill="currentColor"/><path d="M 270 318 C 250 302 222 298 200 304 L 200 246 C 222 240 250 244 270 260 Z M 282 318 C 302 302 330 298 352 304 L 352 246 C 330 240 302 244 282 260 Z" fill="#C6A45B"/><path d="M 223.4 18.9 L 247.3 37.0 L 236.6 65.1 L 212.7 47.0 Z M 275.4 12.9 L 299.3 31.0 L 288.6 59.1 L 264.7 41.0 Z" fill="#C6A45B"/></g></svg></span>
+            <span>DeenQ AI</span>
         </a>
         <nav class="nav" aria-label="Main navigation">
             <a href="#features">What you can do</a>
@@ -393,7 +388,7 @@
                 <p class="intro">Make space for what matters. Build thoughtful daily habits, keep up with prayer, and keep learning at your own pace.</p>
                 <div class="actions">
                     <a class="button button-primary" href="#features">
-                        Explore DeenMate
+                        Explore DeenQ AI
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </a>
                     <a class="button button-secondary" href="{{ url('/api/v1/config') }}">Explore the API</a>
@@ -401,7 +396,7 @@
                 <p class="note">A gentle companion for learning, reflection, and steady progress.</p>
             </div>
 
-            <div class="preview-wrap" aria-label="Illustration of the DeenMate daily progress screen">
+            <div class="preview-wrap" aria-label="Illustration of the DeenQ AI daily progress screen">
                 <div class="preview">
                     <div class="preview-top"><span>YOUR DAILY SPACE</span><span>Today</span></div>
                     <div class="preview-title">A little progress adds up.</div>
@@ -417,7 +412,7 @@
                     <div class="prayer-row"><span class="prayer-name"><span class="prayer-dot"></span>Dhuhr</span><span class="prayer-time">A pause in your day</span></div>
                     <div class="prayer-row"><span class="prayer-name"><span class="prayer-dot"></span>Asr</span><span class="prayer-time">Return to what matters</span></div>
                     <div class="prayer-row"><span class="prayer-name"><span class="prayer-dot"></span>Maghrib</span><span class="prayer-time">End the day with gratitude</span></div>
-                    <div class="preview-bottom"><span>Prayer • Learning • Reflection</span><span>DeenMate</span></div>
+                    <div class="preview-bottom"><span>Prayer • Learning • Reflection</span><span>DeenQ AI</span></div>
                 </div>
             </div>
         </section>
@@ -456,11 +451,9 @@
     </main>
 
     <footer class="shell footer">
-        <a class="brand" href="/" aria-label="DeenMate home">
-            <span class="brand-mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14 9l5.5 2-5.5 2-2 5.5-2-5.5-5.5-2L10 9l2-5.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-            </span>
-            <span>DeenMate</span>
+        <a class="brand" href="/" aria-label="DeenQ AI home">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none"><g transform="translate(256.0 256.0) scale(1.0022) translate(-301.0 -247.0)"><path d="M 88 256 A 168 168 0 1 0 424 256 A 168 168 0 1 0 88 256 Z M 148 236 A 128 128 0 1 1 404 236 A 128 128 0 1 1 148 236 Z" fill="currentColor" fill-rule="evenodd"/><path d="M 326 388 C 360 440 410 472 466 470 C 489 469 503 458 512 438 C 499 452 483 459 463 459 C 420 459 388 432 358 392 Z" fill="currentColor"/><path d="M 270 318 C 250 302 222 298 200 304 L 200 246 C 222 240 250 244 270 260 Z M 282 318 C 302 302 330 298 352 304 L 352 246 C 330 240 302 244 282 260 Z" fill="#C6A45B"/><path d="M 223.4 18.9 L 247.3 37.0 L 236.6 65.1 L 212.7 47.0 Z M 275.4 12.9 L 299.3 31.0 L 288.6 59.1 L 264.7 41.0 Z" fill="#C6A45B"/></g></svg></span>
+            <span>DeenQ AI</span>
         </a>
         <span>A little progress, every day.</span>
         <div class="footer-links">

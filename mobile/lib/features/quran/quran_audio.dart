@@ -14,5 +14,49 @@ int globalVerseNumber(int surah, int verse) {
   return surahVerseCounts.take(surah - 1).fold<int>(0, (sum, count) => sum + count) + verse;
 }
 
-String verseAudioUrl(int surah, int verse) =>
-    'https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalVerseNumber(surah, verse)}.mp3';
+class Reciter {
+  const Reciter(this.id, this.name, this.arabicName, {this.pathBitrate = 128, this.lowQuality = false, this.longOpenings = false});
+
+  /// The AlQuran Cloud edition identifier.
+  final String id;
+  final String name;
+  final String arabicName;
+
+  /// The bitrate folder the CDN publishes this reciter under.
+  final int pathBitrate;
+
+  /// The files themselves are encoded at about 64 kbps, whatever folder they are in.
+  final bool lowQuality;
+
+  /// The first verse of each surah is far longer than the verse itself, so it likely
+  /// contains extra recitation. Its Al-Fatihah 1:1 file is not used as the basmala.
+  final bool longOpenings;
+}
+
+/// Each file was downloaded and its MP3 frames decoded on 2026-11-09. Quality labels follow
+/// the measured bitrate, not the folder name.
+const reciters = <Reciter>[
+  Reciter('ar.alafasy', 'Mishary Rashid Alafasy', 'مشاري العفاسي'),
+  Reciter('ar.husary', 'Mahmoud Khalil Al-Husary', 'محمود خليل الحصري'),
+  Reciter('ar.husarymujawwad', 'Al-Husary (Mujawwad)', 'الحصري (المجود)'),
+  Reciter('ar.hudhaify', 'Ali Al-Hudhaify', 'علي بن عبدالرحمن الحذيفي'),
+  Reciter('ar.shaatree', 'Abu Bakr Ash-Shatri', 'أبو بكر الشاطري'),
+  Reciter('ar.ahmedajamy', 'Ahmed Al-Ajamy', 'أحمد بن علي العجمي'),
+  Reciter('ar.saoodshuraym', 'Saud Ash-Shuraim', 'سعود الشريم', pathBitrate: 64),
+  Reciter('ar.mahermuaiqly', 'Maher Al-Muaiqly', 'ماهر المعيقلي', lowQuality: true),
+  Reciter('ar.muhammadayyoub', 'Muhammad Ayyoub', 'محمد أيوب', lowQuality: true),
+  Reciter('ar.muhammadjibreel', 'Muhammad Jibreel', 'محمد جبريل', lowQuality: true),
+  Reciter('ar.abdurrahmaansudais', 'Abdur Rahman As-Sudais', 'عبدالرحمن السديس', pathBitrate: 64, lowQuality: true),
+  Reciter('ar.abdullahbasfar', 'Abdullah Basfar', 'عبد الله بصفر', pathBitrate: 64, lowQuality: true),
+  Reciter('ar.hanirifai', 'Hani Ar-Rifai', 'هاني الرفاعي', pathBitrate: 64, lowQuality: true),
+  Reciter('ar.aymanswoaid', 'Ayman Suwaid', 'أيمن سويد', pathBitrate: 64, lowQuality: true),
+  Reciter('ar.abdulsamad', 'Abdul Basit Abdus Samad', 'عبدالباسط عبدالصمد', pathBitrate: 64, lowQuality: true, longOpenings: true),
+];
+
+const defaultReciter = 'ar.alafasy';
+
+/// An unknown or removed id falls back to the default rather than failing.
+Reciter reciterById(String? id) => reciters.firstWhere((r) => r.id == id, orElse: () => reciters.first);
+
+String verseAudioUrl(int surah, int verse, {Reciter reciter = const Reciter(defaultReciter, '', '')}) =>
+    'https://cdn.islamic.network/quran/audio/${reciter.pathBitrate}/${reciter.id}/${globalVerseNumber(surah, verse)}.mp3';

@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutBody.
   ///
   /// In en, this message translates to:
-  /// **'DeenMate AI is a private companion for building Islamic habits and learning from reliable references. Your records are for you alone. The app cannot verify worship and does not judge anyone.'**
+  /// **'DeenQ AI is a private companion for building Islamic habits and learning from reliable references. Your records are for you alone. The app cannot verify worship and does not judge anyone.'**
   String get aboutBody;
 
   /// No description provided for @aboutSources.
@@ -271,7 +271,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'DeenMate AI'**
+  /// **'DeenQ AI'**
   String get appName;
 
   /// No description provided for @archive.
@@ -1513,7 +1513,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifPrivateTitle.
   ///
   /// In en, this message translates to:
-  /// **'A reminder from DeenMate AI'**
+  /// **'A reminder from DeenQ AI'**
   String get notifPrivateTitle;
 
   /// No description provided for @notifRemindLater.
@@ -1615,7 +1615,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardFinish.
   ///
   /// In en, this message translates to:
-  /// **'Start using DeenMate AI'**
+  /// **'Start using DeenQ AI'**
   String get onboardFinish;
 
   /// No description provided for @onboardLanguageTitle.
@@ -1687,7 +1687,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardWelcomeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to DeenMate AI'**
+  /// **'Welcome to DeenQ AI'**
   String get onboardWelcomeTitle;
 
   /// No description provided for @oneStepAtATime.
@@ -2073,6 +2073,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reading options'**
   String get readingOptions;
+
+  /// No description provided for @reciter.
+  ///
+  /// In en, this message translates to:
+  /// **'Reciter'**
+  String get reciter;
+
+  /// No description provided for @reciterLowQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower quality (64 kbps)'**
+  String get reciterLowQuality;
+
+  /// No description provided for @reciterOpeningsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Surah openings may include extra recitation (unverified)'**
+  String get reciterOpeningsWarning;
 
   /// No description provided for @recentActivity.
   ///
@@ -2865,6 +2883,438 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your personal progress'**
   String get yourProgress;
+
+  /// No description provided for @addNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add note'**
+  String get addNote;
+
+  /// No description provided for @arabicTextSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic text size'**
+  String get arabicTextSize;
+
+  /// No description provided for @autoPlayShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto play'**
+  String get autoPlayShort;
+
+  /// No description provided for @backgroundPlaybackNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Recitation keeps playing when you leave the app or lock the screen. Use the notification to control it.'**
+  String get backgroundPlaybackNote;
+
+  /// No description provided for @bangla.
+  ///
+  /// In en, this message translates to:
+  /// **'Bangla'**
+  String get bangla;
+
+  /// No description provided for @bismillah.
+  ///
+  /// In en, this message translates to:
+  /// **'Bismillah'**
+  String get bismillah;
+
+  /// No description provided for @both.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get both;
+
+  /// No description provided for @deleteDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete download'**
+  String get deleteDownload;
+
+  /// No description provided for @deleteNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteNote;
+
+  /// No description provided for @downloadDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{surah} saved for offline listening'**
+  String downloadDone(Object surah);
+
+  /// No description provided for @downloadRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Download verses…'**
+  String get downloadRange;
+
+  /// No description provided for @downloadStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Download stopped. Check your connection and try again.'**
+  String get downloadStopped;
+
+  /// No description provided for @downloadSurah.
+  ///
+  /// In en, this message translates to:
+  /// **'Download whole surah'**
+  String get downloadSurah;
+
+  /// No description provided for @downloadedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} verses saved'**
+  String downloadedCount(Object done, Object total);
+
+  /// No description provided for @downloadingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading {done} of {total}'**
+  String downloadingProgress(Object done, Object total);
+
+  /// No description provided for @downloads.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads'**
+  String get downloads;
+
+  /// No description provided for @downloadsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved audio plays without internet, for the reciter shown above. The surah text and translation are saved too. Tafsir and word-by-word need internet.'**
+  String get downloadsHint;
+
+  /// No description provided for @editNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit note'**
+  String get editNote;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @largerText.
+  ///
+  /// In en, this message translates to:
+  /// **'Larger text'**
+  String get largerText;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreOptions;
+
+  /// No description provided for @nextVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'Next verse'**
+  String get nextVerse;
+
+  /// No description provided for @nextWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Next word'**
+  String get nextWord;
+
+  /// No description provided for @noneOption.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get noneOption;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @noteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a private note for this verse'**
+  String get noteHint;
+
+  /// No description provided for @notesPrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes are saved only on this device.'**
+  String get notesPrivate;
+
+  /// No description provided for @nothingPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is playing'**
+  String get nothingPlaying;
+
+  /// No description provided for @nowPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Now playing'**
+  String get nowPlaying;
+
+  /// No description provided for @openInReader.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in reader'**
+  String get openInReader;
+
+  /// No description provided for @playFromHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Play from here'**
+  String get playFromHere;
+
+  /// No description provided for @playWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Play word'**
+  String get playWord;
+
+  /// No description provided for @playbackSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get playbackSpeed;
+
+  /// No description provided for @previousVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous verse'**
+  String get previousVerse;
+
+  /// No description provided for @previousWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous word'**
+  String get previousWord;
+
+  /// No description provided for @queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Queue'**
+  String get queue;
+
+  /// No description provided for @rangeFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From verse'**
+  String get rangeFrom;
+
+  /// No description provided for @rangeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To verse'**
+  String get rangeTo;
+
+  /// No description provided for @repeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get repeat;
+
+  /// No description provided for @repeatOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get repeatOff;
+
+  /// No description provided for @repeatRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Verse range'**
+  String get repeatRange;
+
+  /// No description provided for @repeatRangeValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Verses {from}–{to}'**
+  String repeatRangeValue(Object from, Object to);
+
+  /// No description provided for @repeatSurah.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole surah'**
+  String get repeatSurah;
+
+  /// No description provided for @repeatThisVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat this verse'**
+  String get repeatThisVerse;
+
+  /// No description provided for @repeatTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}×'**
+  String repeatTimes(Object count);
+
+  /// No description provided for @repeatVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'This verse'**
+  String get repeatVerse;
+
+  /// No description provided for @secondTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'Also show'**
+  String get secondTranslation;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @showMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Show meaning'**
+  String get showMeaning;
+
+  /// No description provided for @showWordTransliteration.
+  ///
+  /// In en, this message translates to:
+  /// **'Show word transliteration'**
+  String get showWordTransliteration;
+
+  /// No description provided for @sleepActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops at {time}'**
+  String sleepActive(Object time);
+
+  /// No description provided for @sleepEndOfVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'End of this verse'**
+  String get sleepEndOfVerse;
+
+  /// No description provided for @sleepMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String sleepMinutes(Object minutes);
+
+  /// No description provided for @sleepOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get sleepOff;
+
+  /// No description provided for @sleepTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep timer'**
+  String get sleepTimer;
+
+  /// No description provided for @smallerText.
+  ///
+  /// In en, this message translates to:
+  /// **'Smaller text'**
+  String get smallerText;
+
+  /// No description provided for @stopPlayback.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stopPlayback;
+
+  /// No description provided for @tafsir.
+  ///
+  /// In en, this message translates to:
+  /// **'Tafsir'**
+  String get tafsir;
+
+  /// No description provided for @tafsirAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {name} · {author}. Provided by Quran.com.'**
+  String tafsirAttribution(Object author, Object name);
+
+  /// No description provided for @tafsirGrouped.
+  ///
+  /// In en, this message translates to:
+  /// **'This source explains this verse together with a nearby verse. Try the previous verse.'**
+  String get tafsirGrouped;
+
+  /// No description provided for @tafsirOnlineOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Tafsir needs internet and is not saved on the device, under the provider\'s terms.'**
+  String get tafsirOnlineOnly;
+
+  /// No description provided for @tafsirUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Tafsir is not available right now.'**
+  String get tafsirUnavailable;
+
+  /// No description provided for @translationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation'**
+  String get translationLabel;
+
+  /// No description provided for @translationTextSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation text size'**
+  String get translationTextSize;
+
+  /// No description provided for @verseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Verse {number}'**
+  String verseNumber(Object number);
+
+  /// No description provided for @verseRangeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a verse from 1 to {count}, with the end after the start.'**
+  String verseRangeInvalid(Object count);
+
+  /// No description provided for @wordByWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Word by word'**
+  String get wordByWord;
+
+  /// No description provided for @wordByWordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a word for its meaning and sound'**
+  String get wordByWordHint;
+
+  /// No description provided for @wordByWordUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Word-by-word meanings could not be loaded. They need internet.'**
+  String get wordByWordUnavailable;
+
+  /// No description provided for @wordDataSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Word meanings and audio: Quran.com'**
+  String get wordDataSource;
+
+  /// No description provided for @wordLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'Word learning'**
+  String get wordLearning;
+
+  /// No description provided for @wordProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Word {current} of {total}'**
+  String wordProgress(Object current, Object total);
 }
 
 class _AppLocalizationsDelegate

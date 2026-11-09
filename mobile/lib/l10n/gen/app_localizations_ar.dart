@@ -14,7 +14,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'DeenMate AI رفيق خاص لبناء العادات الإسلامية والتعلّم من مراجع موثوقة. سجلاتك لك وحدك. لا يستطيع التطبيق التحقق من العبادة ولا يحكم على أحد.';
+      'DeenQ AI رفيق خاص لبناء العادات الإسلامية والتعلّم من مراجع موثوقة. سجلاتك لك وحدك. لا يستطيع التطبيق التحقق من العبادة ولا يحكم على أحد.';
 
   @override
   String get aboutSources =>
@@ -103,7 +103,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aiTitle => 'المساعد الذكي';
 
   @override
-  String get appName => 'DeenMate AI';
+  String get appName => 'DeenQ AI';
 
   @override
   String get archive => 'أرشفة';
@@ -766,7 +766,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get notifPrivateTitle => 'تذكير من DeenMate AI';
+  String get notifPrivateTitle => 'تذكير من DeenQ AI';
 
   @override
   String get notifRemindLater => 'ذكّرني لاحقًا';
@@ -823,7 +823,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardDoneTitle => 'كل شيء جاهز';
 
   @override
-  String get onboardFinish => 'ابدأ استخدام DeenMate AI';
+  String get onboardFinish => 'ابدأ استخدام DeenQ AI';
 
   @override
   String get onboardLanguageTitle => 'اختر لغتك';
@@ -864,7 +864,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'مساحة خاصة لبناء العادات ومتابعة رحلتك والتعلّم من مراجع موثوقة.';
 
   @override
-  String get onboardWelcomeTitle => 'مرحبًا بك في DeenMate AI';
+  String get onboardWelcomeTitle => 'مرحبًا بك في DeenQ AI';
 
   @override
   String get oneStepAtATime => 'خطوة بخطوة.';
@@ -1084,6 +1084,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get readingOptions => 'خيارات القراءة';
+
+  @override
+  String get reciter => 'القارئ';
+
+  @override
+  String get reciterLowQuality => 'جودة أقل (64 kbps)';
+
+  @override
+  String get reciterOpeningsWarning =>
+      'قد تتضمن بدايات السور تلاوة إضافية (غير متحقق)';
 
   @override
   String get recentActivity => 'ما أكملته مؤخرًا';
@@ -1521,4 +1531,247 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get yourProgress => 'تقدمك الشخصي';
+
+  @override
+  String get addNote => 'إضافة ملاحظة';
+
+  @override
+  String get arabicTextSize => 'حجم النص العربي';
+
+  @override
+  String get autoPlayShort => 'تشغيل تلقائي';
+
+  @override
+  String get backgroundPlaybackNote =>
+      'تستمر التلاوة عند مغادرة التطبيق أو قفل الشاشة. استخدم الإشعار للتحكم بها.';
+
+  @override
+  String get bangla => 'البنغالية';
+
+  @override
+  String get bismillah => 'البسملة';
+
+  @override
+  String get both => 'كلاهما';
+
+  @override
+  String get deleteDownload => 'حذف التنزيل';
+
+  @override
+  String get deleteNote => 'حذف';
+
+  @override
+  String downloadDone(Object surah) {
+    return 'تم حفظ $surah للاستماع دون اتصال';
+  }
+
+  @override
+  String get downloadRange => 'تنزيل آيات محددة…';
+
+  @override
+  String get downloadStopped => 'توقف التنزيل. تحقق من الاتصال وحاول مرة أخرى.';
+
+  @override
+  String get downloadSurah => 'تنزيل السورة كاملة';
+
+  @override
+  String downloadedCount(Object done, Object total) {
+    return 'تم حفظ $done من $total آية';
+  }
+
+  @override
+  String downloadingProgress(Object done, Object total) {
+    return 'جارٍ التنزيل $done من $total';
+  }
+
+  @override
+  String get downloads => 'التنزيلات';
+
+  @override
+  String get downloadsHint =>
+      'يعمل الصوت المحفوظ دون إنترنت للقارئ الظاهر أعلاه. يُحفظ نص السورة وترجمتها أيضًا. يحتاج التفسير ومعاني الكلمات إلى الإنترنت.';
+
+  @override
+  String get editNote => 'تعديل الملاحظة';
+
+  @override
+  String get english => 'الإنجليزية';
+
+  @override
+  String get largerText => 'نص أكبر';
+
+  @override
+  String get moreOptions => 'خيارات أخرى';
+
+  @override
+  String get nextVerse => 'الآية التالية';
+
+  @override
+  String get nextWord => 'الكلمة التالية';
+
+  @override
+  String get noneOption => 'لا شيء';
+
+  @override
+  String get note => 'ملاحظة';
+
+  @override
+  String get noteHint => 'اكتب ملاحظة خاصة لهذه الآية';
+
+  @override
+  String get notesPrivate => 'تُحفظ الملاحظات على هذا الجهاز فقط.';
+
+  @override
+  String get nothingPlaying => 'لا يوجد تشغيل حاليًا';
+
+  @override
+  String get nowPlaying => 'قيد التشغيل';
+
+  @override
+  String get openInReader => 'فتح في القارئ';
+
+  @override
+  String get playFromHere => 'التشغيل من هنا';
+
+  @override
+  String get playWord => 'تشغيل الكلمة';
+
+  @override
+  String get playbackSpeed => 'السرعة';
+
+  @override
+  String get previousVerse => 'الآية السابقة';
+
+  @override
+  String get previousWord => 'الكلمة السابقة';
+
+  @override
+  String get queue => 'قائمة التشغيل';
+
+  @override
+  String get rangeFrom => 'من الآية';
+
+  @override
+  String get rangeTo => 'إلى الآية';
+
+  @override
+  String get repeat => 'التكرار';
+
+  @override
+  String get repeatOff => 'إيقاف';
+
+  @override
+  String get repeatRange => 'نطاق آيات';
+
+  @override
+  String repeatRangeValue(Object from, Object to) {
+    return 'الآيات $from–$to';
+  }
+
+  @override
+  String get repeatSurah => 'السورة كاملة';
+
+  @override
+  String get repeatThisVerse => 'تكرار هذه الآية';
+
+  @override
+  String repeatTimes(Object count) {
+    return '$count×';
+  }
+
+  @override
+  String get repeatVerse => 'هذه الآية';
+
+  @override
+  String get secondTranslation => 'إظهار أيضًا';
+
+  @override
+  String get share => 'مشاركة';
+
+  @override
+  String get showMeaning => 'إظهار المعنى';
+
+  @override
+  String get showWordTransliteration => 'إظهار نطق الكلمة';
+
+  @override
+  String sleepActive(Object time) {
+    return 'يتوقف عند $time';
+  }
+
+  @override
+  String get sleepEndOfVerse => 'نهاية هذه الآية';
+
+  @override
+  String sleepMinutes(Object minutes) {
+    return '$minutes د';
+  }
+
+  @override
+  String get sleepOff => 'إيقاف';
+
+  @override
+  String get sleepTimer => 'مؤقت النوم';
+
+  @override
+  String get smallerText => 'نص أصغر';
+
+  @override
+  String get stopPlayback => 'إيقاف';
+
+  @override
+  String get tafsir => 'التفسير';
+
+  @override
+  String tafsirAttribution(Object author, Object name) {
+    return 'المصدر: $name · $author. مقدَّم من Quran.com.';
+  }
+
+  @override
+  String get tafsirGrouped =>
+      'يشرح هذا المصدر الآية مع آية قريبة. جرّب الآية السابقة.';
+
+  @override
+  String get tafsirOnlineOnly =>
+      'يحتاج التفسير إلى الإنترنت ولا يُحفظ على الجهاز وفق شروط المزوِّد.';
+
+  @override
+  String get tafsirUnavailable => 'التفسير غير متاح الآن.';
+
+  @override
+  String get translationLabel => 'الترجمة';
+
+  @override
+  String get translationTextSize => 'حجم نص الترجمة';
+
+  @override
+  String verseNumber(Object number) {
+    return 'الآية $number';
+  }
+
+  @override
+  String verseRangeInvalid(Object count) {
+    return 'أدخل آية من 1 إلى $count، والنهاية بعد البداية.';
+  }
+
+  @override
+  String get wordByWord => 'كلمة بكلمة';
+
+  @override
+  String get wordByWordHint => 'اضغط على الكلمة لمعناها ونطقها';
+
+  @override
+  String get wordByWordUnavailable =>
+      'تعذّر تحميل معاني الكلمات. تحتاج إلى الإنترنت.';
+
+  @override
+  String get wordDataSource => 'معاني الكلمات والصوت: Quran.com';
+
+  @override
+  String get wordLearning => 'تعلّم الكلمات';
+
+  @override
+  String wordProgress(Object current, Object total) {
+    return 'الكلمة $current من $total';
+  }
 }

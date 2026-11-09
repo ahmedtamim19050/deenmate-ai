@@ -33,6 +33,10 @@ class AppPrefs {
   bool get adsPersonalized => _p.getBool('ads_personalized') ?? false;
   set adsPersonalized(bool v) => _p.setBool('ads_personalized', v);
 
+  /// The AlQuran Cloud audio edition chosen in the Quran reader.
+  String? get quranReciter => _p.getString('quran_reciter');
+  set quranReciter(String? v) => v == null ? _p.remove('quran_reciter') : _p.setString('quran_reciter', v);
+
   int get hijriOffset => _p.getInt('hijri_offset') ?? 0;
   set hijriOffset(int v) => _p.setInt('hijri_offset', v);
 

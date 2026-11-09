@@ -10,7 +10,7 @@ class DeploymentConfigurationTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('DeenMate — Grow closer, one day at a time')
+            ->assertSee('DeenQ AI — Grow closer, one day at a time')
             ->assertSee('Make your practice your own.');
         $this->get('/up')->assertOk();
     }

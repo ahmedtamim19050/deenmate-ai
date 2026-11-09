@@ -21,7 +21,11 @@ import '../features/points/points_screen.dart';
 import '../features/privacy/privacy_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/settings_screens.dart';
+import '../features/quran/quran_downloads_screen.dart';
+import '../features/quran/quran_player.dart';
 import '../features/quran/quran_screens.dart';
+import '../features/quran/tafsir_screen.dart';
+import '../features/quran/word_by_word.dart';
 import '../features/salah/prayer_settings_screen.dart';
 import '../features/salah/rakat_selection_screen.dart';
 import '../features/salah/salah_history_screen.dart';
@@ -74,6 +78,10 @@ GoRouter buildRouter(WidgetRef ref) {
       page('/quran', (_) => const SurahListScreen()),
       page('/quran/search', (_) => const QuranSearchScreen()),
       page('/quran/record', (_) => const QuranManualRecordScreen()),
+      page('/quran/player', (_) => const QuranPlayerScreen()),
+      page('/quran/downloads', (_) => const QuranDownloadsScreen()),
+      page('/quran/tafsir/:surah/:verse', (s) => TafsirScreen(surah: int.parse(s.pathParameters['surah']!), verse: int.parse(s.pathParameters['verse']!))),
+      page('/quran/learn/:surah', (s) => WordLearningScreen(surah: int.parse(s.pathParameters['surah']!), startVerse: int.tryParse(s.uri.queryParameters['verse'] ?? ''))),
       page('/quran/:id', (s) => SurahReaderScreen(surahId: int.parse(s.pathParameters['id']!), scrollToVerse: int.tryParse(s.uri.queryParameters['verse'] ?? ''))),
       page('/dhikr', (_) => const TasbihScreen()),
       page('/fasting', (_) => const FastingScreen()),

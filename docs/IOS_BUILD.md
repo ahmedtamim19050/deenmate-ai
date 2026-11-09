@@ -4,7 +4,7 @@ iOS cannot be built on Windows, so **the iOS app has not been compiled or run**.
 
 ## What is configured
 
-- Display name DeenMate AI, bundle id `com.deenmate.ai`
+- Display name DeenQ AI, bundle id `com.deenmate.ai` (kept from the original name so existing installs update)
 - Icons and splash generated
 - Location usage text, which is only triggered if someone chooses GPS
 - Notification action buttons

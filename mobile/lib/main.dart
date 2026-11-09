@@ -6,6 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:audio_session/audio_session.dart';
+import 'package:just_audio_background/just_audio_background.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest_10y.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
@@ -16,6 +19,7 @@ import 'core/notifications/prayer_notification_service.dart';
 import 'core/security/token_store.dart';
 import 'core/storage/app_database.dart';
 import 'core/storage/app_prefs.dart';
+import 'features/quran/quran_downloads.dart';
 import 'shared/providers/providers.dart';
 
 Future<void> main() async {
@@ -35,6 +39,16 @@ Future<void> main() async {
   final notifications = PrayerNotificationService();
   await notifications.init(prefs.locale);
 
+  // Recitation keeps playing in the background, with notification and lock-screen controls.
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.deenmate.ai.recitation',
+    androidNotificationChannelName: 'Quran recitation',
+    androidNotificationOngoing: true,
+  );
+  // Pauses for calls and other apps, and ducks for short sounds such as navigation prompts.
+  await (await AudioSession.instance).configure(const AudioSessionConfiguration.music());
+  final downloads = QuranDownloads(await getApplicationDocumentsDirectory());
+
   final ads = AdService();
   final firebaseReady = await _initFirebase();
 
@@ -45,6 +59,7 @@ Future<void> main() async {
       databaseProvider.overrideWithValue(AppDatabase()),
       notificationServiceProvider.overrideWithValue(notifications),
       adServiceProvider.overrideWithValue(ads),
+      quranDownloadsProvider.overrideWithValue(downloads),
     ],
   );
 

@@ -298,7 +298,11 @@ class AboutScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          Image.asset('assets/images/logo_mark.png', width: 72, height: 72),
+          Image.asset(
+            Theme.of(context).brightness == Brightness.dark ? 'assets/images/logo_mark_dark.png' : 'assets/images/logo_mark.png',
+            width: 72,
+            height: 72,
+          ),
           const SizedBox(height: 14),
           Text(l.appName, textAlign: TextAlign.center, style: context.text.headlineSmall),
           Text(l.tagline, textAlign: TextAlign.center, style: context.text.bodyMedium),
