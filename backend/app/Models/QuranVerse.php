@@ -17,4 +17,9 @@ class QuranVerse extends Model
     {
         return $this->hasMany(QuranTranslation::class);
     }
+
+    public function source()
+    {
+        return $this->belongsTo(QuranDataSource::class, 'quran_data_source_id');
+    }
 }

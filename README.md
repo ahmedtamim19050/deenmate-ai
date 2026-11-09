@@ -39,6 +39,7 @@ php artisan migrate --seed
 php artisan filament:assets
 
 php artisan quran:import              # 114 surahs, 6,236 verses. The run fails if incomplete.
+php artisan quran:import-arabic       # Arabic text from Tanzil, validated; repeatable. Add --dry-run first
 php artisan hadith:import nawawi      # or: bukhari, muslim, abudawud, tirmidhi, nasai, ibnmajah, malik
 
 php artisan deenmate:make-admin you@example.com --role=super_admin

@@ -24,6 +24,11 @@ return [
         'text_edition' => env('QURAN_TEXT_EDITION', 'quran-uthmani'),
         'transliteration_edition' => env('QURAN_TRANSLITERATION_EDITION', 'en.transliteration'),
         'translation_editions' => array_filter(explode(',', env('QURAN_TRANSLATION_EDITIONS', 'en.pickthall,bn.bengali'))),
+        // Arabic text for quran:import-arabic. Tanzil's terms: CC BY 3.0, verbatim copies only.
+        'tanzil' => [
+            'download_url' => env('TANZIL_DOWNLOAD_URL', 'https://tanzil.net/pub/download/index.php'),
+            'metadata_url' => env('TANZIL_METADATA_URL', 'https://tanzil.net/res/text/metadata/quran-data.xml'),
+        ],
     ],
 
     'hadith' => [

@@ -70,7 +70,8 @@ Open data is not automatically licensed for your use. Confirm each of these, the
 
 | Item | Source | Note |
 | --- | --- | --- |
-| `quran-uthmani` | AlQuran Cloud | Check the upstream text's attribution and verbatim-copy terms |
+| Quran Arabic text | Tanzil Project, Uthmani 1.1 (`php artisan quran:import-arabic`) | CC BY 3.0, verbatim copies only. Credit Tanzil and link to tanzil.net wherever the text is shown. Recorded in `quran_data_sources` |
+| `quran-uthmani` | AlQuran Cloud | Earlier source of the Arabic text, now replaced by Tanzil's own files. Still used for transliteration and the two translations by `quran:import` |
 | `en.pickthall` | Pickthall, 1930 | Believed to be out of copyright in many countries, but this varies. Confirm for your markets |
 | `bn.bengali` | Muhiuddin Khan | Rights are held separately. Confirm you may redistribute it. This is not the Islamic Foundation Bangladesh translation, so do not label it as one |
 | `en.transliteration` | AlQuran Cloud | Confirm terms |
