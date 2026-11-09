@@ -12,6 +12,7 @@ import '../../core/widgets/common.dart';
 import '../../shared/providers/providers.dart';
 import '../../shared/repositories/activity_repository.dart';
 import '../tracker/record_form.dart';
+import 'quran_audio.dart';
 import 'quran_repository.dart';
 
 class SurahListScreen extends ConsumerStatefulWidget {
@@ -131,13 +132,40 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
   Timer? _audioTick;
   int _audioSeconds = 0;
 
+  /// Verse numbers in play order. Null is the basmala recited before a surah's first verse.
+  List<int?> _queue = const [];
+  int? _currentVerse;
+
   @override
   void initState() {
     super.initState();
     _activities = ref.read(activityRepositoryProvider);
     _player.playerStateStream.listen((s) {
-      if (mounted) setState(() => _playing = s.playing && s.processingState != ProcessingState.completed);
+      if (!mounted) return;
+      setState(() {
+        final finished = s.processingState == ProcessingState.completed;
+        _playing = s.playing && !finished;
+        if (finished) {
+          _queue = const [];
+          _currentVerse = null;
+        }
+      });
     });
+    _player.currentIndexStream.listen((i) {
+      if (mounted && i != null && i < _queue.length) setState(() => _currentVerse = _queue[i]);
+    });
+    _player.playbackEventStream.listen(
+      (_) {},
+      onError: (Object _, StackTrace _) {
+        if (!mounted) return;
+        setState(() {
+          _audioError = context.l10n.audioUnavailable;
+          _audioLoading = false;
+          _queue = const [];
+          _currentVerse = null;
+        });
+      },
+    );
     _audioTick = Timer.periodic(const Duration(seconds: 1), (_) {
       if (_player.playing) _audioSeconds++;
     });
@@ -175,25 +203,54 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
     }
   }
 
-  Future<void> _toggleAudio() async {
+  /// Starts at [verse] and carries on through the rest of the surah.
+  Future<void> _playFrom(SurahDetail d, int verse, {bool withBasmala = false}) async {
     final l = context.l10n;
-    if (_playing) {
-      await _player.pause();
-      return;
-    }
+    final queue = <int?>[
+      if (withBasmala) null,
+      for (final v in d.verses)
+        if (v.number >= verse) v.number,
+    ];
     setState(() {
       _audioError = null;
       _audioLoading = true;
+      _queue = queue;
+      _currentVerse = queue.first;
     });
     try {
-      if (_player.audioSource == null) {
-        await _player.setUrl('https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${widget.surahId}.mp3');
-      }
+      await _player.setAudioSources([
+        // Al-Fatihah's first verse is the basmala recitation.
+        for (final n in queue) AudioSource.uri(Uri.parse(n == null ? verseAudioUrl(1, 1) : verseAudioUrl(widget.surahId, n))),
+      ]);
       unawaited(_player.play());
     } catch (_) {
-      setState(() => _audioError = l.audioUnavailable);
+      if (mounted) {
+        setState(() {
+          _audioError = l.audioUnavailable;
+          _queue = const [];
+          _currentVerse = null;
+        });
+      }
     } finally {
       if (mounted) setState(() => _audioLoading = false);
+    }
+  }
+
+  Future<void> _togglePlayback(SurahDetail d) async {
+    if (_playing) {
+      await _player.pause();
+    } else if (_queue.isNotEmpty) {
+      unawaited(_player.play());
+    } else {
+      await _playFrom(d, _startVerse, withBasmala: d.basmala != null && _startVerse == 1);
+    }
+  }
+
+  Future<void> _toggleVerse(SurahDetail d, Verse v) async {
+    if (_queue.isNotEmpty && _currentVerse == v.number) {
+      await _togglePlayback(d);
+    } else {
+      await _playFrom(d, v.number);
     }
   }
 
@@ -279,7 +336,7 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
         actions: [
           IconButton(
             tooltip: _playing ? l.pauseRecitation : l.playRecitation,
-            onPressed: _audioLoading ? null : _toggleAudio,
+            onPressed: _audioLoading || !detail.hasValue ? null : () => _togglePlayback(detail.value!),
             icon: Icon(_playing ? Icons.pause_circle_outline : Icons.play_circle_outline),
           ),
           if (detail.hasValue) IconButton(tooltip: l.readingOptions, onPressed: () => _options(detail.value!), icon: const Icon(Icons.tune)),
@@ -320,6 +377,9 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
                 showTransliteration: _showTransliteration,
                 bookmarked: bookmarks.containsKey(v.id),
                 onBookmark: () => _toggleBookmark(v, bookmarks),
+                isCurrent: _queue.isNotEmpty && _currentVerse == v.number,
+                playing: _playing && _currentVerse == v.number,
+                onPlay: _audioLoading ? null : () => _toggleVerse(d, v),
               );
             },
           );
@@ -330,18 +390,31 @@ class _SurahReaderScreenState extends ConsumerState<SurahReaderScreen> {
 }
 
 class _VerseCard extends StatelessWidget {
-  const _VerseCard({required this.verse, required this.showTranslation, required this.showTransliteration, required this.bookmarked, required this.onBookmark});
+  const _VerseCard({
+    required this.verse,
+    required this.showTranslation,
+    required this.showTransliteration,
+    required this.bookmarked,
+    required this.onBookmark,
+    required this.isCurrent,
+    required this.playing,
+    required this.onPlay,
+  });
 
   final Verse verse;
   final bool showTranslation;
   final bool showTransliteration;
   final bool bookmarked;
   final VoidCallback onBookmark;
+  final bool isCurrent;
+  final bool playing;
+  final VoidCallback? onPlay;
 
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     return Card(
+      color: isCurrent ? context.colors.primaryContainer.withValues(alpha: 0.45) : null,
       margin: const EdgeInsets.only(bottom: 10),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 8, 14),
@@ -352,6 +425,11 @@ class _VerseCard extends StatelessWidget {
               children: [
                 StatusChip(label: '${verse.number}'),
                 const Spacer(),
+                IconButton(
+                  tooltip: playing ? l.pauseRecitation : l.playRecitation,
+                  onPressed: onPlay,
+                  icon: Icon(playing ? Icons.pause_circle_outline : Icons.play_circle_outline, color: isCurrent ? context.colors.primary : null),
+                ),
                 IconButton(
                   tooltip: bookmarked ? l.removeBookmark : l.addBookmark,
                   onPressed: onBookmark,
