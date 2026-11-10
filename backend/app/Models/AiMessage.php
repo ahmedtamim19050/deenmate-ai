@@ -12,6 +12,7 @@ class AiMessage extends Model
     {
         return [
             'citations' => 'array',
+            'analysis' => 'array',
         ];
     }
 

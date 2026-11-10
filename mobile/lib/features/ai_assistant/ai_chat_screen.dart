@@ -149,7 +149,11 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 2),
-                  child: Text(l.aiDisclaimer, textAlign: TextAlign.center, style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant)),
+                  child: Text(
+                    l.aiDisclaimer,
+                    textAlign: TextAlign.center,
+                    style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
+                  ),
                 ),
                 SafeArea(
                   top: false,
@@ -164,7 +168,11 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
                             maxLines: 4,
                             maxLength: 1500,
                             textInputAction: TextInputAction.newline,
-                            decoration: InputDecoration(hintText: l.aiInputHint, counterText: '', contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12)),
+                            decoration: InputDecoration(
+                              hintText: l.aiInputHint,
+                              counterText: '',
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -253,7 +261,12 @@ class _Bubble extends ConsumerWidget {
       context: context,
       builder: (c) => AlertDialog(
         title: Text(l.reportIncorrect),
-        content: TextField(controller: controller, maxLines: 3, maxLength: 1000, decoration: InputDecoration(labelText: l.reportWhat)),
+        content: TextField(
+          controller: controller,
+          maxLines: 3,
+          maxLength: 1000,
+          decoration: InputDecoration(labelText: l.reportWhat),
+        ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(c, false), child: Text(l.cancel)),
           FilledButton(onPressed: () => Navigator.pop(c, true), child: Text(l.send)),
@@ -288,18 +301,7 @@ class _Bubble extends ConsumerWidget {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(14),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(c.reference ?? c.title, style: context.text.titleSmall),
-                      const SizedBox(height: 4),
-                      Text(c.title, style: context.text.bodySmall),
-                      if (c.author != null) Text(c.author!, style: context.text.bodySmall),
-                      if (c.publisher != null) Text(c.publisher!, style: context.text.bodySmall),
-                      if (c.excerpt != null) ...[const SizedBox(height: 8), Text(c.excerpt!)],
-                      if (c.url != null) ...[const SizedBox(height: 8), SelectableText(c.url!, style: context.text.bodySmall)],
-                    ],
-                  ),
+                  child: _EvidenceCard(citation: c, detailed: true),
                 ),
               ),
               const SizedBox(height: 8),
@@ -331,11 +333,18 @@ class _Bubble extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SelectableText(message.content, style: context.text.bodyMedium?.copyWith(color: fg)),
+              if (isUser || !message.isStructured)
+                SelectableText(message.content, style: context.text.bodyMedium?.copyWith(color: fg))
+              else
+                _StructuredReply(message: message),
               if (!isUser) ...[
                 if (message.citations.isNotEmpty) ...[
                   const SizedBox(height: 8),
-                  ActionChip(avatar: const Icon(Icons.format_quote, size: 16), label: Text(l.viewSources(message.citations.length)), onPressed: () => _showSources(context)),
+                  ActionChip(
+                    avatar: const Icon(Icons.format_quote, size: 16),
+                    label: Text(l.viewSources(message.citations.length)),
+                    onPressed: () => _showSources(context),
+                  ),
                 ],
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -350,9 +359,24 @@ class _Bubble extends ConsumerWidget {
                       icon: const Icon(Icons.copy, size: 18),
                     ),
                     if (message.id != null && !message.failed) ...[
-                      IconButton(tooltip: l.helpful, visualDensity: VisualDensity.compact, onPressed: () => _rate(context, ref, 'helpful'), icon: const Icon(Icons.thumb_up_outlined, size: 18)),
-                      IconButton(tooltip: l.notHelpful, visualDensity: VisualDensity.compact, onPressed: () => _rate(context, ref, 'not_helpful'), icon: const Icon(Icons.thumb_down_outlined, size: 18)),
-                      IconButton(tooltip: l.reportIncorrect, visualDensity: VisualDensity.compact, onPressed: () => _report(context, ref), icon: const Icon(Icons.flag_outlined, size: 18)),
+                      IconButton(
+                        tooltip: l.helpful,
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () => _rate(context, ref, 'helpful'),
+                        icon: const Icon(Icons.thumb_up_outlined, size: 18),
+                      ),
+                      IconButton(
+                        tooltip: l.notHelpful,
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () => _rate(context, ref, 'not_helpful'),
+                        icon: const Icon(Icons.thumb_down_outlined, size: 18),
+                      ),
+                      IconButton(
+                        tooltip: l.reportIncorrect,
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () => _report(context, ref),
+                        icon: const Icon(Icons.flag_outlined, size: 18),
+                      ),
                     ],
                   ],
                 ),
@@ -360,6 +384,129 @@ class _Bubble extends ConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// An assistant reply shown in parts: the AI explanation, clearly labelled, then the evidence
+/// exactly as published (Arabic, approved translation, credit), then any limitations.
+class _StructuredReply extends StatelessWidget {
+  const _StructuredReply({required this.message});
+
+  final ChatMessage message;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final quran = message.citations.where((c) => c.isQuran).take(3).toList();
+    final others = message.citations.where((c) => !c.isQuran).toList();
+    final muted = context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant);
+    final bangla = message.answerLanguage == 'bn';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (message.citations.isNotEmpty && message.status == 'answered') ...[
+          Text(l.aiExplanation, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
+          const SizedBox(height: 4),
+        ],
+        SelectableText(
+          message.answerText!,
+          style: context.text.bodyMedium?.copyWith(fontFamily: bangla ? 'HindSiliguri' : null, height: bangla ? 1.6 : null),
+        ),
+        if (message.scholarlyDifferences != null) ...[const SizedBox(height: 8), SelectableText(message.scholarlyDifferences!, style: context.text.bodyMedium)],
+        if (message.citations.isNotEmpty && message.status == 'answered') ...[const SizedBox(height: 4), Text(l.aiExplanationNote, style: muted)],
+        if (quran.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Text(l.aiEvidenceQuran, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
+          for (final c in quran) ...[const SizedBox(height: 8), _EvidenceCard(citation: c)],
+        ],
+        for (final c in others) ...[const SizedBox(height: 8), _EvidenceCard(citation: c)],
+        if (message.limitations.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: context.colors.surfaceContainerHighest.withValues(alpha: 0.6), borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.info_outline, size: 16, color: context.colors.onSurfaceVariant),
+                    const SizedBox(width: 6),
+                    Text(l.aiPleaseNote, style: context.text.labelMedium),
+                  ],
+                ),
+                for (final limitation in message.limitations) ...[const SizedBox(height: 4), Text(limitation.message, style: muted)],
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// One source passage, quoted exactly and kept visually apart from the AI explanation.
+class _EvidenceCard extends StatelessWidget {
+  const _EvidenceCard({required this.citation, this.detailed = false});
+
+  final Citation citation;
+  final bool detailed;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final c = citation;
+    final muted = context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant);
+    final heading = switch (c.type) {
+      'tafsir' => '${l.aiEvidenceTafsir} · ${c.label}',
+      'hadith' => c.collection != null && c.hadithNumber != null ? l.aiHadithNumber(c.collection!, c.hadithNumber!) : '${l.aiEvidenceHadith} · ${c.label}',
+      _ => c.label,
+    };
+    final quotation = c.quotation;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 8, 8),
+      decoration: BoxDecoration(
+        border: BorderDirectional(start: BorderSide(color: context.colors.primary, width: 3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(heading, style: context.text.titleSmall),
+          if (c.arabic != null) ...[
+            const SizedBox(height: 6),
+            SizedBox(
+              width: double.infinity,
+              child: SelectableText(
+                c.arabic!,
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.right,
+                style: const TextStyle(fontFamily: 'ScheherazadeNew', fontSize: 21, height: 1.8),
+              ),
+            ),
+          ],
+          if (quotation != null) ...[
+            const SizedBox(height: 6),
+            SelectableText('“$quotation”', style: context.text.bodyMedium?.copyWith(fontFamily: c.language == 'bn' ? 'HindSiliguri' : null, height: 1.5)),
+          ],
+          if (c.isQuran && c.translation != null) ...[const SizedBox(height: 2), Text(l.aiExactTranslation, style: muted)],
+          if (c.type == 'hadith' && c.grade != null) ...[
+            const SizedBox(height: 4),
+            Text(c.gradeSource != null ? l.aiHadithGradeBy(c.grade!, c.gradeSource!) : l.aiHadithGrade(c.grade!), style: muted),
+          ],
+          const SizedBox(height: 6),
+          Text('— ${c.credit}', style: muted),
+          if (detailed) ...[
+            if (c.book != null) Text(c.book!, style: muted),
+            if (c.url != null) ...[const SizedBox(height: 4), SelectableText(c.url!, style: muted)],
+            if (c.licenseUrl != null) SelectableText(c.licenseUrl!, style: muted),
+          ],
+        ],
       ),
     );
   }

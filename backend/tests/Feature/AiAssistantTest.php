@@ -8,7 +8,6 @@ use App\Models\IslamicSource;
 use App\Models\QuranSurah;
 use App\Models\QuranVerse;
 use App\Models\SalahRecord;
-use App\Models\User;
 use App\Models\UserPreference;
 use App\Services\AI\Contracts\LlmProvider;
 use App\Services\AI\LlmException;
@@ -191,7 +190,7 @@ class AiAssistantTest extends TestCase
         $this->useProvider($this->goodReply());
         $this->actingUser();
 
-        $content = $this->ask('Is it haram to skip patience and prayer?')->assertJsonPath('data.intent', 'ruling')->json('data.content');
+        $content = $this->ask('Is it haram to skip patience and prayer?')->assertJsonPath('data.intent', 'halal_haram')->json('data.content');
         $this->assertStringContainsString('not a fatwa', $content);
     }
 

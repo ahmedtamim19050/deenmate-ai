@@ -3303,6 +3303,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Credits could not be loaded right now. They need an internet connection the first time.'**
   String get creditsUnavailable;
+
+  /// No description provided for @aiExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Explanation'**
+  String get aiExplanation;
+
+  /// No description provided for @aiExplanationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Written by the AI from the sources below. It is not a translation.'**
+  String get aiExplanationNote;
+
+  /// No description provided for @aiEvidenceQuran.
+  ///
+  /// In en, this message translates to:
+  /// **'From the Quran'**
+  String get aiEvidenceQuran;
+
+  /// No description provided for @aiEvidenceTafsir.
+  ///
+  /// In en, this message translates to:
+  /// **'Tafsir'**
+  String get aiEvidenceTafsir;
+
+  /// No description provided for @aiEvidenceHadith.
+  ///
+  /// In en, this message translates to:
+  /// **'Hadith'**
+  String get aiEvidenceHadith;
+
+  /// No description provided for @aiExactTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved translation, word for word'**
+  String get aiExactTranslation;
+
+  /// No description provided for @aiHadithGrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade: {grade}'**
+  String aiHadithGrade(String grade);
+
+  /// No description provided for @aiHadithGradeBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade: {grade} ({source})'**
+  String aiHadithGradeBy(String grade, String source);
+
+  /// No description provided for @aiHadithNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'{collection}, no. {number}'**
+  String aiHadithNumber(String collection, String number);
+
+  /// No description provided for @aiPleaseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Please note'**
+  String get aiPleaseNote;
 }
 
 class _AppLocalizationsDelegate

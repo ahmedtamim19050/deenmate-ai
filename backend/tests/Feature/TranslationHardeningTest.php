@@ -313,7 +313,10 @@ class TranslationHardeningTest extends TestCase
         $workflow->transition($edition, Edition::STATUS_UNDER_REVIEW, $reviewer);
         $workflow->transition($edition, Edition::STATUS_APPROVED, $reviewer, 'ok');
 
-        $this->assertCount(1, app(SourceRetriever::class)->search('ধৈর্য'));
+        // Patience is a recognised topic, so its well-known verses from the approved edition come back too.
+        $found = app(SourceRetriever::class)->search('ধৈর্য');
+        $this->assertContains('Quran 2:153', $found->map(fn ($c) => $c->chunk->reference)->all());
+        $this->assertSame(['edition:bn.test'], $found->map(fn ($c) => $c->chunk->source->reference_identifier)->unique()->values()->all());
         $this->assertSame('2:153', app(QuranLookup::class)->searchTranslation('ধৈর্য', 'bn.test')->first()['reference']);
     }
 

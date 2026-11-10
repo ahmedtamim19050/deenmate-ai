@@ -1790,4 +1790,41 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get creditsUnavailable =>
       'এখন কৃতজ্ঞতার তথ্য আনা যায়নি। প্রথমবার ইন্টারনেট সংযোগ লাগবে।';
+
+  @override
+  String get aiExplanation => 'ব্যাখ্যা';
+
+  @override
+  String get aiExplanationNote =>
+      'নিচের উৎসগুলো থেকে এআই লিখেছে। এটি অনুবাদ নয়।';
+
+  @override
+  String get aiEvidenceQuran => 'কুরআন থেকে';
+
+  @override
+  String get aiEvidenceTafsir => 'তাফসীর';
+
+  @override
+  String get aiEvidenceHadith => 'হাদিস';
+
+  @override
+  String get aiExactTranslation => 'অনুমোদিত অনুবাদ, হুবহু';
+
+  @override
+  String aiHadithGrade(String grade) {
+    return 'মান: $grade';
+  }
+
+  @override
+  String aiHadithGradeBy(String grade, String source) {
+    return 'মান: $grade ($source)';
+  }
+
+  @override
+  String aiHadithNumber(String collection, String number) {
+    return '$collection, নং $number';
+  }
+
+  @override
+  String get aiPleaseNote => 'লক্ষ্য করুন';
 }

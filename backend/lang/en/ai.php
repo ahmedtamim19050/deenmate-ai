@@ -10,4 +10,12 @@ return [
     'quran_heading' => 'From the Quran:',
     'differences_heading' => 'Differences of scholarly opinion:',
     'not_a_fatwa' => 'This is educational information, not a fatwa. For a ruling on your own situation, please consult a qualified scholar.',
+    'limitations' => [
+        'ai_unavailable' => 'The AI explanation is not available right now. The verses below were found for the topic or reference in your question; they are shown as they are, without an explanation.',
+        'translation_language' => 'No approved translation is available yet in the language of this answer, so the verses are quoted from an approved translation in another language. The explanation is not a translation of them.',
+        'no_approved_tafsir' => 'No approved tafsir is available yet, so this is based only on the verses shown, not on a commentary.',
+        'no_approved_hadith' => 'No approved Hadith collection is available yet, so no Hadith is quoted here.',
+        'context_from_conversation' => 'This follow-up was understood using the verses or topic of your previous question.',
+        'not_a_fatwa' => 'This is educational information, not a fatwa. For a ruling on your own situation, please consult a qualified scholar.',
+    ],
 ];

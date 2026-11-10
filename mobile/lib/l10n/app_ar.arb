@@ -533,5 +533,15 @@
   "wordLearning": "تعلّم الكلمات",
   "wordProgress": "الكلمة {current} من {total}",
   "quranCredits": "نص القرآن والترجمات: المصادر",
-  "creditsUnavailable": "تعذّر تحميل المصادر الآن. تحتاج إلى اتصال بالإنترنت في المرة الأولى."
+  "creditsUnavailable": "تعذّر تحميل المصادر الآن. تحتاج إلى اتصال بالإنترنت في المرة الأولى.",
+  "aiExplanation": "الشرح",
+  "aiExplanationNote": "كتبه الذكاء الاصطناعي من المصادر أدناه، وليس ترجمة.",
+  "aiEvidenceQuran": "من القرآن",
+  "aiEvidenceTafsir": "التفسير",
+  "aiEvidenceHadith": "الحديث",
+  "aiExactTranslation": "الترجمة المعتمدة بنصها",
+  "aiHadithGrade": "الدرجة: {grade}",
+  "aiHadithGradeBy": "الدرجة: {grade} ({source})",
+  "aiHadithNumber": "{collection}، رقم {number}",
+  "aiPleaseNote": "يرجى الملاحظة"
 }

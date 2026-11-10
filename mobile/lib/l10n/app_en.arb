@@ -533,5 +533,42 @@
   "wordLearning": "Word learning",
   "wordProgress": "Word {current} of {total}",
   "quranCredits": "Quran text and translation credits",
-  "creditsUnavailable": "Credits could not be loaded right now. They need an internet connection the first time."
+  "creditsUnavailable": "Credits could not be loaded right now. They need an internet connection the first time.",
+  "aiExplanation": "Explanation",
+  "aiExplanationNote": "Written by the AI from the sources below. It is not a translation.",
+  "aiEvidenceQuran": "From the Quran",
+  "aiEvidenceTafsir": "Tafsir",
+  "aiEvidenceHadith": "Hadith",
+  "aiExactTranslation": "Approved translation, word for word",
+  "aiHadithGrade": "Grade: {grade}",
+  "@aiHadithGrade": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
+  "aiHadithGradeBy": "Grade: {grade} ({source})",
+  "@aiHadithGradeBy": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "aiHadithNumber": "{collection}, no. {number}",
+  "@aiHadithNumber": {
+    "placeholders": {
+      "collection": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "aiPleaseNote": "Please note"
 }

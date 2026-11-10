@@ -23,7 +23,7 @@ class ImportHadith extends Command
         'tirmidhi' => ['name' => "Jami' at-Tirmidhi", 'compiler' => 'Imam at-Tirmidhi'],
         'nasai' => ['name' => "Sunan an-Nasa'i", 'compiler' => "Imam an-Nasa'i"],
         'ibnmajah' => ['name' => 'Sunan Ibn Majah', 'compiler' => 'Imam Ibn Majah'],
-        'malik' => ['name' => "Muwatta Malik", 'compiler' => 'Imam Malik'],
+        'malik' => ['name' => 'Muwatta Malik', 'compiler' => 'Imam Malik'],
     ];
 
     protected $signature = 'hadith:import {collection=nawawi : One of nawawi, bukhari, muslim, abudawud, tirmidhi, nasai, ibnmajah, malik}';
@@ -66,10 +66,24 @@ class ImportHadith extends Command
                 ['title' => $meta['name'], 'author' => $meta['compiler'], 'publisher' => 'fawazahmed0/hadith-api', 'url' => $englishUrl],
             );
 
+            $previous = DB::table('islamic_source_chunks')->where('islamic_source_id', $source->id)->pluck('content_checksum', 'chunk_index');
+            $changed = false;
+
             foreach ($hadiths->values() as $i => $h) {
                 $number = (string) $h['hadithnumber'];
                 $grade = collect($h['grades'] ?? [])->first();
                 $book = $h['reference']['book'] ?? null;
+                $bookName = $book !== null ? ($sections[$book] ?? (string) $book) : null;
+                $documentId = null;
+                if ($book !== null) {
+                    $documentId = DB::table('islamic_source_documents')->where('islamic_source_id', $source->id)->where('document_key', "book:{$book}")->value('id')
+                        ?? DB::table('islamic_source_documents')->insertGetId([
+                            'islamic_source_id' => $source->id, 'document_key' => "book:{$book}", 'title' => $bookName,
+                            'position' => (int) $book, 'created_at' => now(), 'updated_at' => now(),
+                        ]);
+                }
+                $checksum = hash('sha256', $h['text']);
+                $changed = $changed || ($previous->has($i) && $previous[$i] !== $checksum);
                 HadithRecord::query()->updateOrCreate(
                     ['hadith_collection_id' => $collection->id, 'hadith_number' => $number],
                     [
@@ -81,14 +95,30 @@ class ImportHadith extends Command
                         'source_reference' => $book !== null ? "Book {$book}, Hadith ".($h['reference']['hadith'] ?? '') : null,
                     ],
                 );
+                // One Hadith per chunk, so a citation never covers two narrations. Grades are only
+                // what the dataset states, with the grader's name; nothing is inferred.
                 DB::table('islamic_source_chunks')->upsert([[
                     'islamic_source_id' => $source->id,
+                    'islamic_source_document_id' => $documentId,
                     'chunk_index' => $i,
                     'reference' => "{$meta['name']} {$number}",
+                    'citation' => json_encode(array_filter([
+                        'collection' => $meta['name'],
+                        'book' => $bookName,
+                        'hadith_number' => $number,
+                        'grade' => $grade['grade'] ?? null,
+                        'grade_source' => $grade['name'] ?? null,
+                    ], fn ($v) => $v !== null)),
                     'content' => $h['text'],
+                    'content_checksum' => $checksum,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ]], ['islamic_source_id', 'chunk_index'], ['reference', 'content', 'updated_at']);
+                ]], ['islamic_source_id', 'chunk_index'], ['islamic_source_document_id', 'reference', 'citation', 'content', 'content_checksum', 'updated_at']);
+            }
+
+            // Changed text needs a fresh review before the AI may use it again.
+            if ($changed && $source->verification_status === 'approved') {
+                $source->forceFill(['verification_status' => 'pending', 'reviewer_id' => null, 'reviewed_at' => null])->save();
             }
         });
 

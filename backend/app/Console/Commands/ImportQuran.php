@@ -7,6 +7,7 @@ use App\Models\QuranSurah;
 use App\Models\QuranTranslation;
 use App\Models\QuranTranslationEdition;
 use App\Models\QuranVerse;
+use App\Services\Knowledge\QuranChunkWriter;
 use App\Services\Quran\BasmalaSeparator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -104,7 +105,6 @@ class ImportQuran extends Command
             $now = now();
             $translations = [];
             $chunks = [];
-            $index = 0;
             foreach ($data['surahs'] as $s) {
                 foreach ($s['ayahs'] as $a) {
                     $key = $s['number'].':'.$a['numberInSurah'];
@@ -115,22 +115,13 @@ class ImportQuran extends Command
                         'created_at' => $now,
                         'updated_at' => $now,
                     ];
-                    $chunks[] = [
-                        'islamic_source_id' => $source->id,
-                        'chunk_index' => $index++,
-                        'reference' => 'Quran '.$key,
-                        'content' => $a['text'],
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ];
+                    $chunks[$key] = $a['text'];
                 }
             }
             foreach (array_chunk($translations, 500) as $batch) {
                 QuranTranslation::query()->upsert($batch, ['quran_verse_id', 'quran_translation_edition_id'], ['text', 'updated_at']);
             }
-            foreach (array_chunk($chunks, 500) as $batch) {
-                DB::table('islamic_source_chunks')->upsert($batch, ['islamic_source_id', 'chunk_index'], ['reference', 'content', 'updated_at']);
-            }
+            app(QuranChunkWriter::class)->write($source, $chunks);
         });
 
         $this->info("Translation imported: {$identifier}");

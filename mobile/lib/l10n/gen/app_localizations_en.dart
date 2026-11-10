@@ -1792,4 +1792,41 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get creditsUnavailable =>
       'Credits could not be loaded right now. They need an internet connection the first time.';
+
+  @override
+  String get aiExplanation => 'Explanation';
+
+  @override
+  String get aiExplanationNote =>
+      'Written by the AI from the sources below. It is not a translation.';
+
+  @override
+  String get aiEvidenceQuran => 'From the Quran';
+
+  @override
+  String get aiEvidenceTafsir => 'Tafsir';
+
+  @override
+  String get aiEvidenceHadith => 'Hadith';
+
+  @override
+  String get aiExactTranslation => 'Approved translation, word for word';
+
+  @override
+  String aiHadithGrade(String grade) {
+    return 'Grade: $grade';
+  }
+
+  @override
+  String aiHadithGradeBy(String grade, String source) {
+    return 'Grade: $grade ($source)';
+  }
+
+  @override
+  String aiHadithNumber(String collection, String number) {
+    return '$collection, no. $number';
+  }
+
+  @override
+  String get aiPleaseNote => 'Please note';
 }

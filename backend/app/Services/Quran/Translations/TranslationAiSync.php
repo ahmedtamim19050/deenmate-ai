@@ -5,6 +5,7 @@ namespace App\Services\Quran\Translations;
 use App\Models\IslamicSource;
 use App\Models\QuranTranslationEdition as Edition;
 use App\Models\QuranTranslationFlag;
+use App\Services\Knowledge\QuranChunkWriter;
 use App\Services\Quran\QuranStructure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -134,33 +135,31 @@ class TranslationAiSync
                 'title' => Str::limit($title, 255, ''),
                 'author' => $edition->translator,
                 'publisher' => $edition->publisher,
+                'version' => $edition->version,
                 'url' => $edition->source_url,
                 'license' => Str::limit($edition->license_url ?? $edition->license, 255, ''),
+                'license_url' => $edition->license_url,
+                'attribution' => $edition->attribution_text,
+                'content_checksum' => $edition->content_checksum,
                 // Off until the copy below is complete and verified.
                 'verification_status' => 'pending',
             ],
         );
 
-        $now = now();
-        $rows = [];
-        $index = 0;
-        foreach ($content as $key => $row) {
-            // The verse text exactly as stored; footnotes stay with the translation, not the AI copy.
-            $rows[] = ['islamic_source_id' => $source->id, 'chunk_index' => $index++, 'reference' => "Quran {$key}", 'content' => $row['text'], 'created_at' => $now, 'updated_at' => $now];
-        }
-        foreach (array_chunk($rows, 500) as $chunk) {
-            DB::table('islamic_source_chunks')->upsert($chunk, ['islamic_source_id', 'chunk_index'], ['reference', 'content', 'updated_at']);
-        }
-        DB::table('islamic_source_chunks')->where('islamic_source_id', $source->id)->where('chunk_index', '>=', $index)->delete();
+        // The verse text exactly as stored; footnotes stay with the translation, not the AI copy.
+        app(QuranChunkWriter::class)->write($source, array_map(fn (array $row) => $row['text'], $content));
 
-        // Read back every chunk and compare it with the reviewed text.
-        $stored = DB::table('islamic_source_chunks')->where('islamic_source_id', $source->id)->orderBy('chunk_index')->get(['reference', 'content']);
+        // Read back every chunk and compare it, and its location and checksum, with the reviewed text.
+        $stored = DB::table('islamic_source_chunks')->where('islamic_source_id', $source->id)->orderBy('chunk_index')
+            ->get(['reference', 'surah_number', 'ayah_from', 'content', 'content_checksum']);
         if ($stored->count() !== count($content)) {
             throw new RuntimeException('Read-back found '.$stored->count().' chunks, expected '.count($content).'.');
         }
         $keys = array_keys($content);
         foreach ($stored as $i => $chunk) {
-            if ($chunk->reference !== "Quran {$keys[$i]}" || $chunk->content !== $content[$keys[$i]]['text']) {
+            $text = $content[$keys[$i]]['text'];
+            if ($chunk->reference !== "Quran {$keys[$i]}" || "{$chunk->surah_number}:{$chunk->ayah_from}" !== $keys[$i]
+                || $chunk->content !== $text || $chunk->content_checksum !== hash('sha256', $text)) {
                 throw new RuntimeException("Read-back mismatch at {$keys[$i]}.");
             }
         }

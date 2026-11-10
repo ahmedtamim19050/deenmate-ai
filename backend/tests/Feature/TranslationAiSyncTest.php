@@ -8,6 +8,7 @@ use App\Models\QuranTranslationEdition as Edition;
 use App\Models\QuranTranslationFlag;
 use App\Models\User;
 use App\Services\AI\Contracts\LlmProvider;
+use App\Services\AI\EvidenceBuilder;
 use App\Services\AI\SourceRetriever;
 use App\Services\Quran\QuranLookup;
 use App\Services\Quran\QuranStructure;
@@ -262,7 +263,84 @@ class TranslationAiSyncTest extends TestCase
         $content = $this->postJson('/api/v1/ai/chat', ['message' => 'What does the Quran say about patience and prayer?'])
             ->assertOk()->assertJsonPath('data.status', 'answered')->json('data.content');
 
-        $this->assertStringContainsString("O you who believe, seek help through patience and prayer.\n— Clear Quran (Allah Edition), Translation by Talal Itani, ClearQuran.com, version 2026-10-09", $content);
-        $this->assertStringContainsString('never present your own wording as that translation', $fake->calls[0]['messages'][array_key_last($fake->calls[0]['messages'])]['content']);
+        $this->assertStringContainsString("O you who believe, seek help through patience and prayer.\n— Translation by Talal Itani, ClearQuran.com (https://clearquran.com). Version 2026-10-09.", $content);
+        $this->assertStringContainsString('never present it as a translation', $fake->calls[0]['messages'][array_key_last($fake->calls[0]['messages'])]['content']);
+    }
+
+    public function test_sync_writes_one_document_per_surah_and_structured_checksummed_verse_chunks(): void
+    {
+        $edition = $this->approve($this->import(override: ['2:255' => 'Allah—there is no god except He, the Living, the Everlasting.']));
+        $source = $this->source();
+
+        $this->assertSame(114, $source->documents()->count());
+        $this->assertSame('2026-10-09', $source->version);
+        $this->assertSame(self::EDITION['attribution_text'], $source->attribution);
+        $this->assertSame(self::EDITION['license_url'], $source->license_url);
+        $this->assertSame($edition->content_checksum, $source->content_checksum);
+
+        $chunk = $source->chunks()->where('reference', 'Quran 2:255')->first();
+        $this->assertSame([2, 255, 255], [$chunk->surah_number, $chunk->ayah_from, $chunk->ayah_to]);
+        $this->assertSame('Allah—there is no god except He, the Living, the Everlasting.', $chunk->content);
+        $this->assertSame(hash('sha256', $chunk->content), $chunk->content_checksum);
+        $this->assertSame('surah:2', $chunk->document->document_key);
+        $this->assertSame(0, $source->chunks()->whereNull('surah_number')->count());
+
+        // A resync rewrites the same rows instead of adding new ones.
+        app(TranslationAiSync::class)->sync($edition);
+        $this->assertSame(QuranStructure::VERSES, $source->chunks()->count());
+        $this->assertSame(114, $source->documents()->count());
+    }
+
+    public function test_banglish_question_finds_english_verses_and_evidence_carries_full_provenance(): void
+    {
+        $this->approve($this->import(override: ['4:103' => 'Prayer is prescribed for the believers at specific times.']));
+
+        $found = app(SourceRetriever::class)->search('namaz koy wakt?');
+        $references = $found->map(fn ($c) => $c->chunk->reference)->all();
+        $this->assertContains('Quran 4:103', $references);
+
+        $evidence = collect(app(EvidenceBuilder::class)->build($found))->firstWhere('reference', 'Quran 4:103');
+        $this->assertSame('quran', $evidence['type']);
+        $this->assertSame('topic', $evidence['match']);
+        $this->assertSame(4, $evidence['surah_number']);
+        $this->assertSame('S4', $evidence['surah_name']);
+        $this->assertSame(103, $evidence['ayah_number']);
+        $this->assertSame('نص 4 103', $evidence['arabic']);
+        $this->assertSame('Prayer is prescribed for the believers at specific times.', $evidence['translation']);
+        $this->assertSame('Talal Itani', $evidence['translator']);
+        $this->assertSame(self::EDITION['name'], $evidence['edition']);
+        $this->assertSame('2026-10-09', $evidence['version']);
+        $this->assertSame(self::EDITION['attribution_text'], $evidence['attribution']);
+        $this->assertSame(self::EDITION['license_url'], $evidence['license_url']);
+        $this->assertSame('edition:en.clearquran', $evidence['source_key']);
+        $this->assertSame(hash('sha256', $evidence['translation']), $evidence['checksum']);
+        foreach (['reviewer_id', 'reviewed_by', 'review_notes', 'source_id', 'islamic_source_id'] as $private) {
+            $this->assertArrayNotHasKey($private, $evidence);
+        }
+    }
+
+    public function test_exact_references_in_any_form_return_that_verse_first(): void
+    {
+        $this->approve($this->import(override: ['2:255' => 'Allah—there is no god except He, the Living, the Everlasting.']));
+        $retriever = app(SourceRetriever::class);
+
+        foreach (['2:255', '২:২৫৫', 'ayatul kursi er mane ki?', 'surah baqarah ayat 255', 'সূরা বাকারা ২৫৫', 'What is surah 2 verse 255?'] as $question) {
+            $first = $retriever->search($question)->first();
+            $this->assertSame('Quran 2:255', $first?->chunk->reference, $question);
+            $this->assertSame('reference', $first->match, $question);
+        }
+        $range = $retriever->search('2:1-3')->map(fn ($c) => $c->chunk->reference)->take(3)->all();
+        $this->assertSame(['Quran 2:1', 'Quran 2:2', 'Quran 2:3'], $range);
+    }
+
+    public function test_revoking_removes_the_edition_from_the_next_question(): void
+    {
+        $edition = $this->approve($this->import());
+        $this->assertNotEmpty(app(SourceRetriever::class)->search('2:255'));
+
+        app(TranslationReviewWorkflow::class)->transition($edition, Edition::STATUS_INACTIVE, $this->reviewer);
+
+        $this->assertEmpty(app(SourceRetriever::class)->search('2:255'));
+        $this->assertEmpty(app(SourceRetriever::class)->eligibleSources());
     }
 }

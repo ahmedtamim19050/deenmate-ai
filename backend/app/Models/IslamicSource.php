@@ -23,6 +23,17 @@ class IslamicSource extends Model
         return $this->hasMany(IslamicSourceChunk::class);
     }
 
+    public function documents()
+    {
+        return $this->hasMany(IslamicSourceDocument::class);
+    }
+
+    /** The translation edition this source is the AI copy of, if any. */
+    public function translationEdition()
+    {
+        return $this->hasOne(QuranTranslationEdition::class, 'islamic_source_id');
+    }
+
     public function reviewer()
     {
         return $this->belongsTo(User::class, 'reviewer_id');

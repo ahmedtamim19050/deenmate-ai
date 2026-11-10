@@ -1768,4 +1768,41 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get creditsUnavailable =>
       'تعذّر تحميل المصادر الآن. تحتاج إلى اتصال بالإنترنت في المرة الأولى.';
+
+  @override
+  String get aiExplanation => 'الشرح';
+
+  @override
+  String get aiExplanationNote =>
+      'كتبه الذكاء الاصطناعي من المصادر أدناه، وليس ترجمة.';
+
+  @override
+  String get aiEvidenceQuran => 'من القرآن';
+
+  @override
+  String get aiEvidenceTafsir => 'التفسير';
+
+  @override
+  String get aiEvidenceHadith => 'الحديث';
+
+  @override
+  String get aiExactTranslation => 'الترجمة المعتمدة بنصها';
+
+  @override
+  String aiHadithGrade(String grade) {
+    return 'الدرجة: $grade';
+  }
+
+  @override
+  String aiHadithGradeBy(String grade, String source) {
+    return 'الدرجة: $grade ($source)';
+  }
+
+  @override
+  String aiHadithNumber(String collection, String number) {
+    return '$collection، رقم $number';
+  }
+
+  @override
+  String get aiPleaseNote => 'يرجى الملاحظة';
 }
